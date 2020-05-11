@@ -1,5 +1,4 @@
-artifact_name       := emergency-auth-code-web 
-version             := "unversioned"
+artifact_name := emergency-auth-code-web
 
 .PHONY: all
 all: build
@@ -14,16 +13,21 @@ clean:
 
 .PHONY: build
 build:
-	mvn versions:set -DnewVersion=$(version) -DgenerateBackupPoms=false
-	mvn package -DskipTests=true
-	cp ./target/$(artifact_name)-$(version).jar ./$(artifact_name).jar
+	mvn compile
 
 .PHONY: test
-test: test-unit
+test: clean
+	mvn verify
 
 .PHONY: test-unit
 test-unit: clean
 	mvn test
+
+
+.PHONY: dev
+dev: clean
+	mvn package -DskipTests=true
+	cp target/$(artifact_name)-unversioned.jar $(artifact_name).jar
 
 .PHONY: package
 package:
@@ -36,7 +40,6 @@ endif
 	$(eval tmpdir:=$(shell mktemp -d build-XXXXXXXXXX))
 	cp ./start.sh $(tmpdir)
 	cp ./routes.yaml $(tmpdir)
-	cp ./logging.properties $(tmpdir)
 	cp ./target/$(artifact_name)-$(version).jar $(tmpdir)/$(artifact_name).jar
 	cd $(tmpdir); zip -r ../$(artifact_name)-$(version).zip *
 	rm -rf $(tmpdir)
@@ -44,10 +47,11 @@ endif
 .PHONY: dist
 dist: clean build package
 
+
 .PHONY: sonar
 sonar:
 	mvn sonar:sonar
 
 .PHONY: sonar-pr-analysis
 sonar-pr-analysis:
-	mvn sonar:sonar -P sonar-pr-analysis
+	mvn sonar:sonar	-P sonar-pr-analysis
