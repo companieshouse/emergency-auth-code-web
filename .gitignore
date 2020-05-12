@@ -16,3 +16,9 @@ bin/
 # Mac files
 .DS_Store
 ._*
+
+# Maven
+.mvn
+mvnw
+mvnw.cmd
+!.mvn/wrapper/maven-wrapper.jar
