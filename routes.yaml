@@ -3,4 +3,4 @@ group: web
 
 weight: 930
 routes:
-   1: 
+   1: /placeholder
