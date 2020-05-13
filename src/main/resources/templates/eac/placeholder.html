@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/baseLayout}">
+
+<head>
+    <title>
+        Placeholder for company lookup
+    </title>
+</head>
+
+    <div id="placeholder"  layout:fragment="content">
+        <form id="placeholderid" th:action="@{''}" method="post" class="form">
+            <div class="govuk-grid-row">
+                    < class="govuk-form-group">
+                        <button type="submit" class="govuk-button">
+                            Continue
+                        </button>
+            </div>
+        </form>
+    </div>
+</html>
