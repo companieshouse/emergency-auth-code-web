@@ -14,7 +14,7 @@ import java.text.ParseException;
 @Controller
 @PreviousController(EACStartController.class)
 @NextController(CompanyInformationPageController.class)
-@RequestMapping("/request-an-authcode/company-lookup")
+@RequestMapping("/request-an-authcode/companylookup")
 public class CompanyLookupPlaceholderController extends BaseController {
 
     private static String COMPANY_LOOKUP = "eac/placeholder";

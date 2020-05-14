@@ -30,7 +30,6 @@ public class CompanyInformationPageController extends BaseController {
         return getTemplateName();
     }
 
-
     @PostMapping
     public String postListOfDirectors() {
 
