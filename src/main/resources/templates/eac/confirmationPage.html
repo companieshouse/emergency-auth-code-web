@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/baseLayout}">
+
+<head>
+    <title>Confirmation Page</title>
+</head>
+<div id="temp-home-main-content"  layout:fragment="content">
+
+    <form th:action="@{''}" method="post" class="form" id="home">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">
+                    Confirmation Page
+                </h1>
+            </div>
+        </div>
+    </form>
+</div>
+</html>
