@@ -5,26 +5,18 @@
       layout:decorate="~{layouts/baseLayout}">
 
 <head>
-    <title>
-        Confirmation
-    </title>
+    <title>Confirmation Page</title>
 </head>
+<div id="temp-home-main-content"  layout:fragment="content">
 
-< id="confirmation-main-content" layout:fragment="content">
-<form th:action="@{''}" method="post" class="form" id="confirmation">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <div class="govuk-panel govuk-panel--confirmation" id="confirmation-details">
-                <p>Confirmation page</p>
-
+    <form th:action="@{''}" method="post" class="form" id="home">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">
+                    Confirmation Page
+                </h1>
             </div>
         </div>
-    </div>
-    <div class="govuk-grid-column-one-third">
-        <p class="govuk-body">
-            <a href="/signout" class="govuk-link">Sign out</a>
-        </p>
-    </div>
-</form>
+    </form>
 </div>
 </html>
