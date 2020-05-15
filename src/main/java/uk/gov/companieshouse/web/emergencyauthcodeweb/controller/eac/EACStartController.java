@@ -11,10 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.model.Criteria;
-
-import javax.validation.Valid;
-import java.text.ParseException;
 
 @Controller
 @NextController(EACStartController.class)
@@ -30,15 +26,11 @@ public class EACStartController extends BaseController {
 
     @GetMapping
     public String getEacHome(Model model) {
-
-        model.addAttribute("criteria", new Criteria());
-
         return getTemplateName();
     }
 
     @PostMapping
-    public String postCompanyLookup(@ModelAttribute("criteria") @Valid Criteria criteria,
-            BindingResult bindingResult, Model model, RedirectAttributes attributes) {
+    public String postCompanyLookup(Model model, RedirectAttributes attributes) {
 
         attributes.addAttribute("forward", "/request-an-authcode/company/{companyNumber}/company-information");
         return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/company-lookup/search";
