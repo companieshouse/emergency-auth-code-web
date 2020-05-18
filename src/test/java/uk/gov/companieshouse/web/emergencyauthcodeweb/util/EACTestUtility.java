@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac.util;
+package uk.gov.companieshouse.web.emergencyauthcodeweb.util;
 
 import uk.gov.companieshouse.api.model.company.CompanyProfileApi;
 
