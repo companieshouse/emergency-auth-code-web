@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac.util.EACTestUtility;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.util.EACTestUtility;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
