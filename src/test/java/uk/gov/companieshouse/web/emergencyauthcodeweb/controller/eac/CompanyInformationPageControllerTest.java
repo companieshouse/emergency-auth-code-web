@@ -16,6 +16,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanySer
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,6 +32,8 @@ public class CompanyInformationPageControllerTest {
     private static final String EAC_COMPANY_INFORMATION_PATH = "/request-an-authcode/company/" + COMPANY_NUMBER + "/company-information";
     private static final String EAC_COMPANY_INFORMATION_VIEW = "eac/companyInformation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
+    private static final String ERROR_VIEW = "error";
+
 
     private MockMvc mockMvc;
 
@@ -78,5 +81,17 @@ public class CompanyInformationPageControllerTest {
     private void configureValidCompanyProfile(String companyNumber) throws ServiceException {
         when(mockCompanyService.getCompanyProfile(companyNumber))
                 .thenReturn(EACTestUtility.validCompanyProfile(companyNumber));
+    }
+
+    @Test
+    @DisplayName("Get company information view - Throws exception")
+    void getRequestThrowsException() throws Exception {
+        doThrow(ServiceException.class).when(mockCompanyService).getCompanyProfile(COMPANY_NUMBER);
+
+        this.mockMvc.perform(get(EAC_COMPANY_INFORMATION_PATH))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ERROR_VIEW));
+
+        verify(mockCompanyService, times(1)).getCompanyProfile(COMPANY_NUMBER);
     }
 }
