@@ -9,8 +9,6 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
-import java.text.ParseException;
-
 @Controller
 @PreviousController(CompanyInformationPageController.class)
 @NextController(ConfirmationPageController.class)
