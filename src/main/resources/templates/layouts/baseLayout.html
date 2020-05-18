@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <title layout:title-pattern="$CONTENT_TITLE"></title>
-    <div id="templateName" th:attr="data-id=${templateName}" hidden></div>
     <link
             th:href="@{{cdnUrl}/stylesheets/chs-styles.css(cdnUrl=${@environment.getProperty('cdn.url')})}"
             media="all" rel="stylesheet" type="text/css" />
@@ -15,9 +14,12 @@
             th:href="@{{cdnUrl}/stylesheets/govuk-frontend/v3.4.0/govuk-frontend-3.4.0.min.css(cdnUrl=${@environment.getProperty('cdn.url')})}"
             media="all" rel="stylesheet" type="text/css" />
     <link
+            th:href="@{{cdnUrl}/images/favicon.ico(cdnUrl=${@environment.getProperty('cdn.url')})}"
             rel="icon"
-            th:href="@{{cdnUrl}/images/favicon.ico?0.17.3(cdnUrl=${@environment.getProperty('cdn.url')})}"
             type="image/x-icon" />
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$CONTENT_TITLE"></title>
+    <div id="templateName" th:attr="data-id=${templateName}" hidden></div>
 
 </head>
 <body>
@@ -27,7 +29,7 @@
     <script th:src="@{{cdnUrl}/javascripts/vendor/jquery-3.3.1.min.js(cdnUrl=${@environment.getProperty('cdn.url')})}" type="text/javascript"></script>
 
     <div class="entire-wrapper">
-        <div th:replace="fragments/header :: header (headerText = 'EMERGENCY AUTH CODE')"></div>
+        <div th:replace="fragments/header :: header (headerText = 'REQUEST AN AUTH CODE')"></div>
         <div class="govuk-width-container">
             <div th:replace="fragments/betaBanner :: betaBanner (surveyLink = 'placeholder')"></div>
             <div th:replace="fragments/backButtonLink :: backButtonLink"></div>
