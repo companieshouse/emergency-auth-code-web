@@ -12,9 +12,38 @@
     <form th:action="@{''}" method="post" class="form" id="home">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl">
-                    Confirmation Page
-                </h1>
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">Application submitted</h1>
+                    <div class="govuk-panel__body">
+                        We will post the authentication code to the officer's home address.
+                    </div>
+                </div>
+                <p class="govuk-body">
+                </p>
+                <h2 class="govuk-heading-m">How long it takes</h2>
+                <p class="govuk-body">The officer should receive the authentication code at their home address within 5 working days. </p>
+                <div class="govuk-warning-text">
+                    <span style="top:10%;" class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong style="margin-left:auto;" class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        Due to the impact of coronavirus (COVID-19) it may take longer than usual for post to be delivered.
+                    </strong>
+                </div>
+                <h2 class="govuk-heading-m">How to contact us</h2>
+                <p class="govuk-body">Email us at <a href="email">enquiries@companieshouse.gov.uk</a>.</p>
+                <p class="govuk-body">Our telephone contact centre is now closed to protect the welfare of our employees during the coronavirus (COVID-19) outbreak.</p>
+                <h2 class="govuk-heading-m">What do you want to do next?</h2>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>
+                        <a href="/print">print this page for your records</a>
+                    </li>
+                    <li>
+                        <a href="/sign-out">sign out</a>
+                    </li>
+                </ul>
+                <p class="govuk-body govuk-!-margin-top-7">
+                    <a href="feedback">Help us to improve this new service by completing our quick survey</a>.
+                </p>
             </div>
         </div>
     </form>
