@@ -22,7 +22,7 @@ public class CompanyInformationPageController extends BaseController {
     @Autowired
     private CompanyService companyService;
 
-    private static String COMPANY_INFO = "eac/companyInformation";
+    private static final String COMPANY_INFO = "eac/companyInformation";
 
     private static final String TEMPLATE_HEADING = "Confirm company details";
 
