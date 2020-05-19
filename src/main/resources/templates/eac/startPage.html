@@ -5,20 +5,74 @@
       layout:decorate="~{layouts/baseLayout}">
 
 <head>
-    <title>Landing Page</title>
-</head>
-<div id="temp-home-main-content"  layout:fragment="content">
+    <!--[if lte IE 8]>
+    <link href="/public/stylesheets/application-ie8.css" rel="stylesheet" type="text/css"/><![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link href="/public/stylesheets/application.css" media="all" rel="stylesheet" type="text/css"/><!--<![endif]-->
 
-    <form th:action="@{''}" method="post" class="form" id="home">
+    <title>Request an authentication code to be sent to a home address</title>
+</head>
+<div id="start-main-content" layout:fragment="content">
+
+    <form th:action="@{''}" method="post" class="form" id="start-page">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">
-                    EMERGENCY AUTH CODE SERVICE
-                </h1>
 
-                <div class="form-group">
-                    <input id="next-button" class="govuk-button" type="submit" role="button" value="Start now"/>
+                    Request an authentication code to be sent to a home address
+
+                </h1>
+                <p class="govuk-body-l">Use this service to get a company's authentication code posted to an officer's home address instead of the
+                    registered office.
+                </p>
+                <div class="govuk-inset-text">
+                    You should check with company agents to see if they already have the authentication code.
                 </div>
+
+                <h2 class="govuk-heading-s">You'll need:</h2>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>the company number</li>
+                    <li>to sign in to or create a Companies House account, which is different to a WebFiling account</li>
+                    <p></ul>
+
+                <h2 class="govuk-heading-s">You cannot use this service if:</h2>
+
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>the company is dissolved</li>
+                    <li>the officer is disqualified</li>
+                    <li>the officer is bankrupt</li>
+                    <li>the officer is on the secure register</li>
+                    <p></ul>
+
+                <div class="govuk-warning-text">
+                    <span style="top:10%;" class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong style="margin-left:auto;" class="govuk-warning-text__text">
+                        <span class="govuk-warning-text__assistive">Warning</span>
+                        <span id="statements-warning-text">You should only use this service if the officer has previously given us up-to-date details of their home address.</span>
+                    </strong>
+                </div>
+
+                <p class="govuk-body">It takes around 10 minutes to request an authentication code.</p>
+                <a href="sign-in" role="button" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">Start now</a>
+            </div>
+
+
+            <div class="govuk-grid-column-one-third">
+                <aside class="app-related-items" role="complementary">
+                    <h2 class="govuk-heading-m" id="subsection-title">
+                        Guidance
+                    </h2>
+                    <nav role="navigation" aria-labelledby="subsection-title">
+                        <ul class="govuk-list
+    govuk-!-font-size-16">
+                            <li>
+                                <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" target="_blank">
+                                    Company authentication codes for online filing
+                                    <span class="govuk-visually-hidden">Link opens in new tab/window</span>
+                                </a>
+                        </ul>
+                    </nav>
+                </aside>
             </div>
         </div>
     </form>
