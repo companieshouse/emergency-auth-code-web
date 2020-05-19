@@ -13,7 +13,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @RequestMapping("/request-an-authcode")
 public class EACStartController extends BaseController {
 
-    private static String EAC_HOME = "eac/startPage";
+    private static final String EAC_HOME = "eac/startPage";
 
     @Override
     protected String getTemplateName() {

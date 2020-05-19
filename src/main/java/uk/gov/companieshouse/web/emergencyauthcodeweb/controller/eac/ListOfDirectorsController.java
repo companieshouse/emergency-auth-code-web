@@ -15,7 +15,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @RequestMapping("/request-an-authcode/list-of-directors")
 public class ListOfDirectorsController extends BaseController {
 
-    private static String LIST_OF_DIRECTORS = "eac/listOfDirectors";
+    private static final String LIST_OF_DIRECTORS = "eac/listOfDirectors";
 
     @Override
     protected String getTemplateName() {
