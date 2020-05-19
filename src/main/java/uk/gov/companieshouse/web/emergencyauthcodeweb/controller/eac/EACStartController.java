@@ -5,13 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
-import java.text.ParseException;
-
 @Controller
-@NextController(CompanyLookupPlaceholderController.class)
 @RequestMapping("/request-an-authcode")
 public class EACStartController extends BaseController {
 
@@ -24,14 +22,13 @@ public class EACStartController extends BaseController {
 
     @GetMapping
     public String getEacHome(Model model) {
-
         return getTemplateName();
     }
 
-
     @PostMapping
-    public String postCompanyLookup() {
+    public String postCompanyLookup(Model model, RedirectAttributes attributes) {
 
-        return navigatorService.getNextControllerRedirect(this.getClass());
+        attributes.addAttribute("forward", "/request-an-authcode/company/{companyNumber}/company-information");
+        return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/company-lookup/search";
     }
 }

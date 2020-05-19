@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
-import java.text.ParseException;
-
 @Controller
 @PreviousController(ListOfDirectorsController.class)
 @RequestMapping("/request-an-authcode/confirmation")

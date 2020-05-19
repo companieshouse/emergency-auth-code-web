@@ -13,7 +13,6 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +23,8 @@ public class EACStartControllerTest {
     private static final String EAC_START_PATH = "/request-an-authcode";
     private static final String EAC_START_VIEW = "eac/startPage";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
+    private static final String MOCK_COMPANY_LOOKUP_URL = "/company-lookup/search";
+    private static final String REDIRECT_PATH = "redirect:";
 
     private MockMvc mockMvc;
 
@@ -49,11 +50,9 @@ public class EACStartControllerTest {
     @Test
     @DisplayName("Post to company lookup page - successful")
     void postRequestSuccessful() throws Exception {
-        when(navigatorService.getNextControllerRedirect(any(), any()))
-                .thenReturn(MOCK_CONTROLLER_PATH);
 
         this.mockMvc.perform(post(EAC_START_PATH))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(MOCK_CONTROLLER_PATH));
+                .andExpect(view().name(REDIRECT_PATH + MOCK_COMPANY_LOOKUP_URL));
     }
 }
