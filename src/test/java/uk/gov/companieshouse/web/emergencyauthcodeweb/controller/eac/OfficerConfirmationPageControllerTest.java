@@ -12,18 +12,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
-public class EACStartControllerTest {
-    private static final String EAC_START_PATH = "/auth-code-requests/start";
-    private static final String EAC_START_VIEW = "eac/startPage";
+public class OfficerConfirmationPageControllerTest {
+    private static final String EAC_OFFICER_CONFIRMATION_PATH = "/auth-code-requests/requests/request_id_placeholder/confirm-officer";
+    private static final String EAC_OFFICER_CONFIRMATION_VIEW = "eac/officerConfirmation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
-    private static final String MOCK_COMPANY_LOOKUP_URL = "/company-lookup/search";
-    private static final String REDIRECT_PATH = "redirect:";
 
     private MockMvc mockMvc;
 
@@ -31,7 +31,7 @@ public class EACStartControllerTest {
     private NavigatorService navigatorService;
 
     @InjectMocks
-    private EACStartController controller;
+    private OfficerConfirmationPageController controller;
 
     @BeforeEach
     void setUp() {
@@ -39,19 +39,21 @@ public class EACStartControllerTest {
     }
 
     @Test
-    @DisplayName("Get start page view - successful")
+    @DisplayName("Get list of directors view - successful")
     void getRequestSuccessful() throws Exception {
-        this.mockMvc.perform(get(EAC_START_PATH))
+        this.mockMvc.perform(get(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_START_VIEW));
+                .andExpect(view().name(EAC_OFFICER_CONFIRMATION_VIEW));
     }
 
     @Test
-    @DisplayName("Post to company lookup page - successful")
+    @DisplayName("Post to confirmation page - successful")
     void postRequestSuccessful() throws Exception {
+        when(navigatorService.getNextControllerRedirect(any(), any()))
+                .thenReturn(MOCK_CONTROLLER_PATH);
 
-        this.mockMvc.perform(post(EAC_START_PATH))
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_PATH + MOCK_COMPANY_LOOKUP_URL));
+                .andExpect(view().name(MOCK_CONTROLLER_PATH));
     }
 }

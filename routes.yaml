@@ -3,4 +3,4 @@ group: web
 
 weight: 930
 routes:
-   1: /request-an-authcode/*
+   1: /auth-code-requests/*

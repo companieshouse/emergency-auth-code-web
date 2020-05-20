@@ -21,7 +21,7 @@ public class WebSecurity {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .antMatcher("/request-an-authcode");
+                    .antMatcher("/auth-code-requests/start");
         }
     }
 
@@ -33,7 +33,7 @@ public class WebSecurity {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            http.antMatcher("/request-an-authcode/**")
+            http.antMatcher("/auth-code-requests/**")
                     .addFilterBefore(new SessionHandler(), BasicAuthenticationFilter.class)
                     .addFilterBefore(new HijackFilter(), BasicAuthenticationFilter.class)
                     .addFilterBefore(new UserAuthFilter(), BasicAuthenticationFilter.class);
