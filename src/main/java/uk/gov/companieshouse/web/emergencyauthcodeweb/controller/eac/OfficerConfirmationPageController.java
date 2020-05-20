@@ -14,7 +14,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @NextController(ConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirm-officer")
 public class OfficerConfirmationPageController extends BaseController {
-    private static final String OFFICER_INFORMATION = "eac/officerInformation";
+    private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
 
     @Override
     protected String getTemplateName() {

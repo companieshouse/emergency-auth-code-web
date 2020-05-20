@@ -31,7 +31,7 @@ public class CompanyConfirmationPageControllerTest {
     private static final String COMPANY_NUMBER = "12345678";
     private static final String
             EAC_COMPANY_CONFIRMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
-    private static final String EAC_COMPANY_CONFIRMATION_VIEW = "eac/companyInformation";
+    private static final String EAC_COMPANY_CONFIRMATION_VIEW = "eac/companyConfirmation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String ERROR_VIEW = "error";
 
