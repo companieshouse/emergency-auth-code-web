@@ -11,7 +11,7 @@
 </head>
 <div id="temp-home-main-content"  layout:fragment="content">
 
-    <form action="view-officer" method="GET">
+    <form th:action="@{''}" method="post" class="form" id="confirm-page">
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -55,7 +55,7 @@
                         </dd>
                     </div>
                 </dl>
-                <button class="govuk-button" data-module="govuk-button">
+                <button type="submit" class="govuk-button">
                     Confirm
                 </button>
             </div>
