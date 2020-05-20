@@ -26,11 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
-public class CompanyInformationPageControllerTest {
+public class CompanyConfirmationPageControllerTest {
 
     private static final String COMPANY_NUMBER = "12345678";
-    private static final String EAC_COMPANY_INFORMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
-    private static final String EAC_COMPANY_INFORMATION_VIEW = "eac/companyInformation";
+    private static final String
+            EAC_COMPANY_CONFIRMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
+    private static final String EAC_COMPANY_CONFIRMATION_VIEW = "eac/companyInformation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String ERROR_VIEW = "error";
 
@@ -44,7 +45,7 @@ public class CompanyInformationPageControllerTest {
     private NavigatorService navigatorService;
 
     @InjectMocks
-    private CompanyInformationPageController controller;
+    private CompanyConfirmationPageController controller;
 
     @BeforeEach
     void setUp() {
@@ -57,9 +58,9 @@ public class CompanyInformationPageControllerTest {
 
         configureValidCompanyProfile(COMPANY_NUMBER);
 
-        this.mockMvc.perform(get(EAC_COMPANY_INFORMATION_PATH))
+        this.mockMvc.perform(get(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_COMPANY_INFORMATION_VIEW));
+                .andExpect(view().name(EAC_COMPANY_CONFIRMATION_VIEW));
 
         verify(mockCompanyService, times(1)).getCompanyProfile(COMPANY_NUMBER);
 
@@ -71,7 +72,7 @@ public class CompanyInformationPageControllerTest {
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
-        this.mockMvc.perform(post(EAC_COMPANY_INFORMATION_PATH))
+        this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(MOCK_CONTROLLER_PATH));
 
@@ -88,7 +89,7 @@ public class CompanyInformationPageControllerTest {
     void getRequestThrowsException() throws Exception {
         doThrow(ServiceException.class).when(mockCompanyService).getCompanyProfile(COMPANY_NUMBER);
 
-        this.mockMvc.perform(get(EAC_COMPANY_INFORMATION_PATH))
+        this.mockMvc.perform(get(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ERROR_VIEW));
 

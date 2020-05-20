@@ -13,7 +13,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @PreviousController(ListOfDirectorsController.class)
 @NextController(ConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirm-officer")
-public class OfficerInformationPageController extends BaseController {
+public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerInformation";
 
     @Override

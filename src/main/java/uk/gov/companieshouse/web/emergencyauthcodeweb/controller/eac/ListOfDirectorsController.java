@@ -10,8 +10,8 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousControl
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@PreviousController(CompanyInformationPageController.class)
-@NextController(OfficerInformationPageController.class)
+@PreviousController(CompanyConfirmationPageController.class)
+@NextController(OfficerConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/request_id_placeholder/officers")
 public class ListOfDirectorsController extends BaseController {
 

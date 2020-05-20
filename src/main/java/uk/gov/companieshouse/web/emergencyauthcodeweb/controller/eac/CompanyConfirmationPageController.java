@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @NextController(ListOfDirectorsController.class)
 @RequestMapping("/auth-code-requests/company/{company_number}/confirm")
-public class CompanyInformationPageController extends BaseController {
+public class CompanyConfirmationPageController extends BaseController {
 
     @Autowired
     private CompanyService companyService;

@@ -20,9 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
-public class OfficerInformationPageControllerTest {
-    private static final String EAC_OFFICER_INFORMATION_PATH = "/auth-code-requests/requests/request_id_placeholder/confirm-officer";
-    private static final String EAC_OFFICER_INFORMATION_VIEW = "eac/officerInformation";
+public class OfficerConfirmationPageControllerTest {
+    private static final String EAC_OFFICER_CONFIRMATION_PATH = "/auth-code-requests/requests/request_id_placeholder/confirm-officer";
+    private static final String EAC_OFFICER_CONFIRMATION_VIEW = "eac/officerInformation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
 
     private MockMvc mockMvc;
@@ -31,7 +31,7 @@ public class OfficerInformationPageControllerTest {
     private NavigatorService navigatorService;
 
     @InjectMocks
-    private OfficerInformationPageController controller;
+    private OfficerConfirmationPageController controller;
 
     @BeforeEach
     void setUp() {
@@ -41,9 +41,9 @@ public class OfficerInformationPageControllerTest {
     @Test
     @DisplayName("Get list of directors view - successful")
     void getRequestSuccessful() throws Exception {
-        this.mockMvc.perform(get(EAC_OFFICER_INFORMATION_PATH))
+        this.mockMvc.perform(get(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_OFFICER_INFORMATION_VIEW));
+                .andExpect(view().name(EAC_OFFICER_CONFIRMATION_VIEW));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class OfficerInformationPageControllerTest {
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
-        this.mockMvc.perform(post(EAC_OFFICER_INFORMATION_PATH))
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(MOCK_CONTROLLER_PATH));
     }
