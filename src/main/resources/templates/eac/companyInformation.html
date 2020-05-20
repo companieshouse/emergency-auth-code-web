@@ -5,23 +5,59 @@
       layout:decorate="~{layouts/baseLayout}">
 
 <head>
-    <title>Company Information</title>
+    <title>
+        Confirm this is the correct company
+    </title>
 </head>
 <div id="temp-home-main-content"  layout:fragment="content">
 
-    <form th:action="@{''}" method="post" class="form" id="home">
+    <form action="view-officer" method="GET">
+
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 id="page-title" class="govuk-heading-xl">
-                    <span id="page-title-heading">Company Information</span>
-                </h1>
-                <p class="govuk-heading-m" th:text="'Company name ' + ${companyProfile.companyName}"></p>
 
-                <p class="govuk-heading-m" th:text="'Company number ' + ${companyProfile.companyNumber}"></p>
+                <h1 class="govuk-heading-l">Confirm this is the correct company</h1>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Company name
+                        </dt>
+                        <dd class="govuk-summary-list__value" th:text="${companyProfile.companyName}">
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Company number
+                        </dt>
+                        <dd class="govuk-summary-list__value" th:text="${companyProfile.companyNumber}">
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Status
+                        </dt>
+                        <dd class="govuk-summary-list__value">
 
-                <div class="form-group">
-                    <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
-                </div>
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Incorporation date
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Company type
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                        </dd>
+                    </div>
+                </dl>
+                <button class="govuk-button" data-module="govuk-button">
+                    Confirm
+                </button>
             </div>
         </div>
     </form>
