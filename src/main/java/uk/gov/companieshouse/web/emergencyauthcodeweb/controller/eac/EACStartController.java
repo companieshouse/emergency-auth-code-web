@@ -28,7 +28,7 @@ public class EACStartController extends BaseController {
     @PostMapping
     public String postCompanyLookup(Model model, RedirectAttributes attributes) {
 
-        attributes.addAttribute("forward", "/request-an-authcode/company/{companyNumber}/company-information");
+        attributes.addAttribute("forward", "/auth-code-requests/company/{companyNumber}/confirm");
         return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/company-lookup/search";
     }
 }
