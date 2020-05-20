@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyInformationPageControllerTest {
 
     private static final String COMPANY_NUMBER = "12345678";
-    private static final String EAC_COMPANY_INFORMATION_PATH = "/request-an-authcode/company/" + COMPANY_NUMBER + "/company-information";
+    private static final String EAC_COMPANY_INFORMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
     private static final String EAC_COMPANY_INFORMATION_VIEW = "eac/companyInformation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String ERROR_VIEW = "error";

@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 public class ConfirmationPageControllerTest {
-    private static final String EAC_CONFIRMATION_PATH = "/request-an-authcode/confirmation";
+    private static final String EAC_CONFIRMATION_PATH = "/auth-code-requests/requests/request_id_placeholder/confirmation";
     private static final String EAC_CONFIRMATION_VIEW = "eac/confirmationPage";
 
     private MockMvc mockMvc;
