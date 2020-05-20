@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@RequestMapping("/request-an-authcode")
+@RequestMapping("/auth-code-requests/start")
 public class EACStartController extends BaseController {
 
     private static final String EAC_HOME = "eac/startPage";

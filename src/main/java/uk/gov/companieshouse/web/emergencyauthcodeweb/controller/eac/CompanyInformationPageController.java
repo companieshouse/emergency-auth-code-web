@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @NextController(ListOfDirectorsController.class)
-@RequestMapping("/request-an-authcode/company/{companyNumber}/company-information")
+@RequestMapping("/auth-code-requests/company/{company_number}/confirm")
 public class CompanyInformationPageController extends BaseController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class CompanyInformationPageController extends BaseController {
         model.addAttribute(MODEL_ATTR_SHOW_CONTINUE, SHOW_CONTINUE);
         model.addAttribute("templateHeading", TEMPLATE_HEADING);
 
-        model.addAttribute("backButton", "/company-lookup/search?forward=%2Frequest-an-authcode%2Fcompany%2F%7BcompanyNumber%7D%2Fcompany-information");
+        model.addAttribute("backButton", "/company-lookup/search?forward=%2Fauth-code-requests%2Fcompany%2F%7BcompanyNumber%7D%2Fconfirm");
 
         return getTemplateName();
     }

@@ -10,16 +10,15 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousControl
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@PreviousController(CompanyInformationPageController.class)
-@NextController(OfficerInformationPageController.class)
-@RequestMapping("/auth-code-requests/requests/request_id_placeholder/officers")
-public class ListOfDirectorsController extends BaseController {
-
-    private static final String LIST_OF_DIRECTORS = "eac/listOfDirectors";
+@PreviousController(ListOfDirectorsController.class)
+@NextController(ConfirmationPageController.class)
+@RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirm-officer")
+public class OfficerInformationPageController extends BaseController {
+    private static final String OFFICER_INFORMATION = "eac/officerInformation";
 
     @Override
     protected String getTemplateName() {
-        return LIST_OF_DIRECTORS;
+        return OFFICER_INFORMATION;
     }
 
     @GetMapping

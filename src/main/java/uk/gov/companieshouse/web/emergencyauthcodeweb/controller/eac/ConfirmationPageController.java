@@ -9,7 +9,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
 @PreviousController(ListOfDirectorsController.class)
-@RequestMapping("/request-an-authcode/confirmation")
+@RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirmation")
 public class ConfirmationPageController extends BaseController {
 
     private static final String CONFIRMATION_PAGE = "eac/confirmationPage";
