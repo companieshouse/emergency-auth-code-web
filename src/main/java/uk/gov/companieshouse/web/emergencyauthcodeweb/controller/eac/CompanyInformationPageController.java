@@ -35,7 +35,7 @@ public class CompanyInformationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getCompanyInformation(@PathVariable String companyNumber, Model model, HttpServletRequest request) {
+    public String getCompanyInformation(@PathVariable("company_number") String companyNumber, Model model, HttpServletRequest request) {
 
         try {
             model.addAttribute("companyProfile", companyService.getCompanyProfile(companyNumber));
