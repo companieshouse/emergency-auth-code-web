@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@RequestMapping("/request-an-authcode")
+@RequestMapping("/auth-code-requests/start")
 public class EACStartController extends BaseController {
 
     private static final String EAC_HOME = "eac/startPage";
@@ -28,7 +28,7 @@ public class EACStartController extends BaseController {
     @PostMapping
     public String postCompanyLookup(Model model, RedirectAttributes attributes) {
 
-        attributes.addAttribute("forward", "/request-an-authcode/company/{companyNumber}/company-information");
+        attributes.addAttribute("forward", "/auth-code-requests/company/{companyNumber}/confirm");
         return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/company-lookup/search";
     }
 }
