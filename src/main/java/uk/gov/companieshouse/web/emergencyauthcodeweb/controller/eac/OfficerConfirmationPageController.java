@@ -24,6 +24,8 @@ public class OfficerConfirmationPageController extends BaseController {
     @GetMapping
     public String getCompanyInformation(Model model) {
 
+        addBackPageAttributeToModel(model);
+
         return getTemplateName();
     }
 

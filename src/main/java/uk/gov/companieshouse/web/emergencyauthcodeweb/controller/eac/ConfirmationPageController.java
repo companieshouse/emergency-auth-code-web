@@ -8,7 +8,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousControl
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@PreviousController(ListOfDirectorsController.class)
+@PreviousController(OfficerConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirmation")
 public class ConfirmationPageController extends BaseController {
 
@@ -21,6 +21,8 @@ public class ConfirmationPageController extends BaseController {
 
     @GetMapping
     public String getCompanyInformation(Model model) {
+
+        addBackPageAttributeToModel(model);
 
         return getTemplateName();
     }
