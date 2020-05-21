@@ -5,18 +5,60 @@
       layout:decorate="~{layouts/baseLayout}">
 
 <head>
-    <title>Officer list</title>
+    <title>Select an officer</title>
 </head>
 <div id="officer-list-main-content"  layout:fragment="content">
 
     <form th:action="@{''}" method="post" class="form" id="officer-list">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl">
-                    Officer list
-                </h1>
-
                 <div class="form-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading">
+                            Which officer needs the authentication code?
+                        </h1>
+                    </legend>
+                    <span id="list-of-officers-hint" class="govuk-hint">
+                        You should only select an officer if you know they have given us their most recent home address.
+                    </span>
+                        <div class="govuk-radios">
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="list-of-officers" name="list-of-officers" type="radio" value="one">
+                                <label class="govuk-label govuk-radios__label" for="list-of-officers">
+                                    BLOGGS, Joe Root
+                                </label>
+
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="list-of-officers-2" name="list-of-officers" type="radio" value="two">
+                                <label class="govuk-label govuk-radios__label" for="list-of-officers-2">
+                                    SMITH, John Steve
+                                </label>
+
+                            </div>
+
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="list-of-officers-3" name="list-of-officers" type="radio" value="three">
+                                <label class="govuk-label govuk-radios__label" for="list-of-officers-3">
+                                    SMITH, Joanna Ann, Dr
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <p></p>
+                    <details class="govuk-details" data-module="govuk-details">
+                        <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                              Why can I not see the home address?
+                            </span>
+                        </summary>
+                        <div class="govuk-details__text">
+                            We do not make details of an officer's home address publicly available. <br><br>We will post the authorisation code to the most recent home address that the officer has given us.
+                        </div>
+                    </details>
                     <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
                 </div>
             </div>
