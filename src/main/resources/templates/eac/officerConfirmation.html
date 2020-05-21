@@ -5,19 +5,91 @@
       layout:decorate="~{layouts/baseLayout}">
 
 <head>
-    <title>Officer Confirmation</title>
+    <title>Confirm this is the correct officer</title>
 </head>
 <div id="officer-confirm-main-content"  layout:fragment="content">
 
     <form th:action="@{''}" method="post" class="form" id="officer-confirmation">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 id="page-title" class="govuk-heading-xl">
-                    <span id="page-title-heading">Officer Information</span>
-                </h1>
+                <h1 class="govuk-heading-l">Confirm this is the correct officer</h1>
+                <dl class="govuk-summary-list">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Name
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            BLOGGS, Joe Root
+                        </dd>
 
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Role
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Director
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Date of birth
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            December 1952
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Appointed on
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            13 May 2015
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Nationality
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            British
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Country of residence
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            United Kingdom
+                        </dd>
+                    </div>
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Occupation
+                        </dt>
+                        <dd class="govuk-summary-list__value">
+                            Chartered Accountant
+                        </dd>
+                    </div>
+                </dl>
                 <div class="form-group">
-                    <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
+                    <fieldset class="govuk-fieldset">
+                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
+                                <label class="govuk-label govuk-checkboxes__label" for="organisation">
+                                    I confirm that I want the authentication code sent to the most recent home address given to Companies House for Joe Root Bloggs
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <p></p>
+                    <input id="next-button" class="govuk-button" type="submit" role="button" value="Confirm and submit"/>
                 </div>
             </div>
         </div>
