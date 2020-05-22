@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -24,6 +25,8 @@ public class OfficerConfirmationPageControllerTest {
     private static final String EAC_OFFICER_CONFIRMATION_PATH = "/auth-code-requests/requests/request_id_placeholder/confirm-officer";
     private static final String EAC_OFFICER_CONFIRMATION_VIEW = "eac/officerConfirmation";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
+
+    private static final String BACK_BUTTON_MODEL_ATTR = "backButton";
 
     private MockMvc mockMvc;
 
@@ -41,9 +44,13 @@ public class OfficerConfirmationPageControllerTest {
     @Test
     @DisplayName("Get list of directors view - successful")
     void getRequestSuccessful() throws Exception {
+        when(navigatorService.getPreviousControllerPath(any(), any()))
+                .thenReturn(MOCK_CONTROLLER_PATH);
+
         this.mockMvc.perform(get(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_OFFICER_CONFIRMATION_VIEW));
+                .andExpect(view().name(EAC_OFFICER_CONFIRMATION_VIEW))
+                .andExpect(model().attributeExists(BACK_BUTTON_MODEL_ATTR));
     }
 
     @Test
