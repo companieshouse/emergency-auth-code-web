@@ -38,7 +38,7 @@ public class CompanyConfirmationPageController extends BaseController {
     public String getCompanyInformation(@PathVariable("company_number") String companyNumber, Model model, HttpServletRequest request) {
 
         try {
-            model.addAttribute("companyProfile", companyService.getCompanyProfile(companyNumber));
+            model.addAttribute("companyProfile", companyService.getCompanyDetail(companyNumber));
         } catch (ServiceException e) {
             LOGGER.errorRequest(request, e.getMessage(), e);
             return ERROR_VIEW;
