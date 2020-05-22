@@ -36,7 +36,7 @@
                         <dt class="govuk-summary-list__key">
                             Status
                         </dt>
-                        <dd class="govuk-summary-list__value">
+                        <dd class="govuk-summary-list__value"  th:text="${companyProfile.companyStatus}">
 
                         </dd>
                     </div>
@@ -44,14 +44,7 @@
                         <dt class="govuk-summary-list__key">
                             Incorporation date
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                        </dd>
-                    </div>
-                    <div class="govuk-summary-list__row">
-                        <dt class="govuk-summary-list__key">
-                            Company type
-                        </dt>
-                        <dd class="govuk-summary-list__value">
+                        <dd class="govuk-summary-list__value"  th:text="${companyProfile.dateOfCreation}">
                         </dd>
                     </div>
                 </dl>
