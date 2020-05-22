@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CompanyTransformerImplTest {
 
-
     @Mock
     private CompanyGet companyGet;
 
@@ -38,6 +37,8 @@ public class CompanyTransformerImplTest {
 
     private static final String COMPANY_NAME = "company";
     private static final String COMPANY_NUMBER = "number";
+    private static final String COMPANY_STATUS = "status";
+    private static final LocalDate DATE_OF_CREATION = LocalDate.of(2000, 01, 01);;
 
     private CompanyProfileApi createMockCompanyProfileApi() {
 
@@ -45,6 +46,8 @@ public class CompanyTransformerImplTest {
 
         companyProfile.setCompanyName(COMPANY_NAME);
         companyProfile.setCompanyNumber(COMPANY_NUMBER);
+        companyProfile.setCompanyStatus(COMPANY_STATUS);
+        companyProfile.setDateOfCreation(DATE_OF_CREATION);
 
         return companyProfile;
     }

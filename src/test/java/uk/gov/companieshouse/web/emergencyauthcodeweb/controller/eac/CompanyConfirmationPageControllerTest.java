@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.util.EACTestUtility;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
@@ -22,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -32,6 +33,10 @@ public class CompanyConfirmationPageControllerTest {
     private static final String
             EAC_COMPANY_CONFIRMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
     private static final String EAC_COMPANY_CONFIRMATION_VIEW = "eac/companyConfirmation";
+    private static final String COMPANY_DETAIL_MODEL_ATTR = "companyDetail";
+    private static final String TEMPLATE_NAME_MODEL_ATTR = "templateName";
+    private static final String TEMPLATE_HEADING_MODEL_ATTR = "templateHeading";
+    private static final String TEMPLATE_SHOW_CONTINUE_MODEL_ATTR = "showContinue";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String ERROR_VIEW = "error";
 
@@ -43,6 +48,9 @@ public class CompanyConfirmationPageControllerTest {
 
     @Mock
     private NavigatorService navigatorService;
+
+    @Mock
+    private CompanyDetail companyDetail;
 
     @InjectMocks
     private CompanyConfirmationPageController controller;
@@ -56,13 +64,18 @@ public class CompanyConfirmationPageControllerTest {
     @DisplayName("Get company information view - successful")
     void getRequestSuccessful() throws Exception {
 
-        configureValidCompanyProfile(COMPANY_NUMBER);
+        when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(companyDetail);
 
         this.mockMvc.perform(get(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_COMPANY_CONFIRMATION_VIEW));
+                .andExpect(view().name(EAC_COMPANY_CONFIRMATION_VIEW))
+                .andExpect(model().attributeExists(COMPANY_DETAIL_MODEL_ATTR))
+                .andExpect(model().attributeExists(TEMPLATE_HEADING_MODEL_ATTR))
+                .andExpect(model().attributeExists(TEMPLATE_SHOW_CONTINUE_MODEL_ATTR))
+                .andExpect(model().attributeExists(TEMPLATE_NAME_MODEL_ATTR));
 
-        verify(mockCompanyService, times(1)).getCompanyProfile(COMPANY_NUMBER);
+
+        verify(mockCompanyService, times(1)).getCompanyDetail(COMPANY_NUMBER);
 
     }
 
@@ -78,21 +91,15 @@ public class CompanyConfirmationPageControllerTest {
 
     }
 
-
-    private void configureValidCompanyProfile(String companyNumber) throws ServiceException {
-        when(mockCompanyService.getCompanyProfile(companyNumber))
-                .thenReturn(EACTestUtility.validCompanyProfile(companyNumber));
-    }
-
     @Test
     @DisplayName("Get company information view - Throws exception")
     void getRequestThrowsException() throws Exception {
-        doThrow(ServiceException.class).when(mockCompanyService).getCompanyProfile(COMPANY_NUMBER);
+        doThrow(ServiceException.class).when(mockCompanyService).getCompanyDetail(COMPANY_NUMBER);
 
         this.mockMvc.perform(get(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ERROR_VIEW));
 
-        verify(mockCompanyService, times(1)).getCompanyProfile(COMPANY_NUMBER);
+        verify(mockCompanyService, times(1)).getCompanyDetail(COMPANY_NUMBER);
     }
 }
