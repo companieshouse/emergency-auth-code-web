@@ -12,6 +12,8 @@ public class CompanyDetail {
 
     private String dateOfCreation;
 
+    private String type;
+
     public String getCompanyName() {
         return companyName;
     }
@@ -37,4 +39,8 @@ public class CompanyDetail {
     public void setDateOfCreation(String dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 }
