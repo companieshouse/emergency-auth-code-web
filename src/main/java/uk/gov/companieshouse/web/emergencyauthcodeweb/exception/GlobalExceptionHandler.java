@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.EmergencyAuthCodeWebApplication;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.EmergencyAuthCodeWebApplication;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,7 +1,5 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.company;
 
-import java.time.LocalDate;
-
 public class CompanyDetail {
 
     private String companyName;
