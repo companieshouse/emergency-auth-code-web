@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @PreviousController(CompanyConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/company/{companyNumber}/cannot-use-this-service")
