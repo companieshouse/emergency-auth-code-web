@@ -20,7 +20,7 @@ public class ConfirmationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getCompanyInformation(Model model) {
+    public String getConfirmationPage(Model model) {
 
         addBackPageAttributeToModel(model);
 
