@@ -9,9 +9,9 @@
         You cannot use this service
     </title>
 </head>
-<div id="company-confirmation-main-content" layout:fragment="content">
+<div id="cannot-use-service-main-content" layout:fragment="content">
 
-    <form th:action="@{''}" method="post" class="form" id="company-confirmation">
+    <form th:action="@{''}" method="post" class="form" id="cannot-use-service">
 
         <h1 class="govuk-heading-xl">
             You cannot use this service
@@ -21,8 +21,6 @@
         <h2 class="govuk-body">We cannot post an authorisation code to an officer's home address because the company:</h2>
 
         <ul class="govuk-list govuk-list--bullet">
-            <li>is dissolved</li>
-
             <li>does not have any active officers</li>
 
             <li>in not based in the UK</li>
@@ -37,7 +35,6 @@
         <p class="govuk-body">You are still able to <a href="/webfiling">request an authorisation code to the company's registered office address in
             WebFiling</a>.
         <p>
-
 
     </form>
 </div>

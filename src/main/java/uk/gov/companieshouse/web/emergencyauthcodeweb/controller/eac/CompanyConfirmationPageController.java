@@ -67,12 +67,15 @@ public class CompanyConfirmationPageController extends BaseController {
 
         try {
             String companyType = companyService.getCompanyDetail(companyNumber).getType();
+
             if( !acceptedTypes.contains(companyType)){
                 return UrlBasedViewResolver.REDIRECT_URL_PREFIX + urlGenerator(companyNumber) + CANNOT_USE_THIS_SERVICE;
             }
+
             return navigatorService.getNextControllerRedirect(this.getClass());
 
         } catch (ServiceException error) {
+
             LOGGER.errorRequest(request, error.getMessage(), error);
             return ERROR_VIEW;
         }
