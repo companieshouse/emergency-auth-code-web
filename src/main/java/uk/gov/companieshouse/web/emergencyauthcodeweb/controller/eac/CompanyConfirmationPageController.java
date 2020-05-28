@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class CompanyConfirmationPageController extends BaseController {
     public String getCompanyInformation(@PathVariable("companyNumber") String companyNumber, Model model, HttpServletRequest request) {
 
         try {
-            model.addAttribute("companyDetail", companyService.getCompanyDetail(companyNumber));
+            model.addAttribute("companyDetail", getCompanyDetails(companyNumber));
         } catch (ServiceException e) {
             LOGGER.errorRequest(request, e.getMessage(), e);
             return ERROR_VIEW;
@@ -63,13 +64,13 @@ public class CompanyConfirmationPageController extends BaseController {
     }
 
     @PostMapping
-    public String postListOfDirectors(@PathVariable("companyNumber") String companyNumber, Model model, HttpServletRequest request) {
+    public String postListOfDirectors(@PathVariable("companyNumber") String companyNumber, HttpServletRequest request) {
 
         try {
-            String companyType = companyService.getCompanyDetail(companyNumber).getType();
+            String companyType = getCompanyDetails(companyNumber).getType();
 
             if( !acceptedTypes.contains(companyType)){
-                return UrlBasedViewResolver.REDIRECT_URL_PREFIX + urlGenerator(companyNumber) + CANNOT_USE_THIS_SERVICE;
+                return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
             }
 
             return navigatorService.getNextControllerRedirect(this.getClass());
@@ -81,9 +82,7 @@ public class CompanyConfirmationPageController extends BaseController {
         }
     }
 
-
-    private String urlGenerator(String companyNumber) {
-        return "/auth-code-requests/company/" + companyNumber;
+    private CompanyDetail getCompanyDetails(String companyNumber) throws ServiceException {
+        return companyService.getCompanyDetail(companyNumber);
     }
-
 }
