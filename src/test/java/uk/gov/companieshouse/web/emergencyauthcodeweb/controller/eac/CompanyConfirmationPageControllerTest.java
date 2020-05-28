@@ -10,10 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import uk.gov.companieshouse.api.model.latefilingpenalty.LateFilingPenalty;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -30,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyConfirmationPageControllerTest {
 
     private static final String COMPANY_NUMBER = "12345678";
-    private static final String
-            EAC_COMPANY_CONFIRMATION_PATH = "/auth-code-requests/company/" + COMPANY_NUMBER + "/confirm";
+    private static final String EAC_COMPANY_CONFIRMATION_PATH = "/auth-code-requests/company/" +
+            COMPANY_NUMBER + "/confirm";
     private static final String EAC_COMPANY_CONFIRMATION_VIEW = "eac/companyConfirmation";
     private static final String COMPANY_DETAIL_MODEL_ATTR = "companyDetail";
     private static final String TEMPLATE_NAME_MODEL_ATTR = "templateName";
@@ -39,7 +43,9 @@ public class CompanyConfirmationPageControllerTest {
     private static final String TEMPLATE_SHOW_CONTINUE_MODEL_ATTR = "showContinue";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String ERROR_VIEW = "error";
-
+    private static final String INVALID_COMPANY_TYPE = "invalid-company-type";
+    private static final String EAC_CANNOT_USE_SERVICE_PATH = "redirect:/auth-code-requests/company/" + COMPANY_NUMBER + "/cannot-use-this-service";
+    private static final String VALID_COMPANY_TYPE = "ltd";
 
     private MockMvc mockMvc;
 
@@ -47,7 +53,7 @@ public class CompanyConfirmationPageControllerTest {
     private CompanyService mockCompanyService;
 
     @Mock
-    private NavigatorService navigatorService;
+    private NavigatorService mockNavigatorService;
 
     @Mock
     private CompanyDetail companyDetail;
@@ -82,13 +88,32 @@ public class CompanyConfirmationPageControllerTest {
     @Test
     @DisplayName("Post to list of directors page - successful")
     void postRequestSuccessful() throws Exception {
-        when(navigatorService.getNextControllerRedirect(any(), any()))
+
+        CompanyDetail validCompanyType = new CompanyDetail();
+        validCompanyType.setType(VALID_COMPANY_TYPE);
+        when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyType);
+
+
+        when(mockNavigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
         this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(MOCK_CONTROLLER_PATH));
 
+    }
+
+    @Test
+    @DisplayName("Post to cannot use service page - invalid company type")
+    void postRequestUnsuccessful() throws Exception {
+
+        CompanyDetail invalidCompanyType = new CompanyDetail();
+        invalidCompanyType.setType(INVALID_COMPANY_TYPE);
+        when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(invalidCompanyType);
+
+        this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(EAC_CANNOT_USE_SERVICE_PATH));
     }
 
     @Test
