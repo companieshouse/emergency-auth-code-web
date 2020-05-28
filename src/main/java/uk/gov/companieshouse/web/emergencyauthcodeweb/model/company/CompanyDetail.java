@@ -1,9 +1,12 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.company;
 
+import javax.validation.constraints.NotNull;
+
 public class CompanyDetail {
 
     private String companyName;
 
+    @NotNull
     private String companyNumber;
 
     private String companyStatus;
