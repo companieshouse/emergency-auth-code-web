@@ -40,7 +40,7 @@ public class CompanyDetailTransformerImplTest {
 
     private static final String COMPANY_NUMBER = "number";
 
-    private static final String COMPANY_STATUS = "status";
+    private static final String INVALID_COMPANY_STATUS = "status";
 
     private static final String ACTIVE_COMPANY_STATUS = "active";
     private static final String FORMATTED_ACTIVE_COMPANY_STATUS = "Active";
@@ -66,11 +66,11 @@ public class CompanyDetailTransformerImplTest {
     @DisplayName("Get Company Detail - All fields Populated Path")
     void getCompanyDetailAllPopulated() {
 
-        CompanyDetail companyDetailReturned = companyDetailTransformer.getCompanyDetail(createMockCompanyProfileApi(COMPANY_NAME, COMPANY_NUMBER, COMPANY_STATUS, DATE_OF_CREATION, COMPANY_TYPE));
+        CompanyDetail companyDetailReturned = companyDetailTransformer.getCompanyDetail(createMockCompanyProfileApi(COMPANY_NAME, COMPANY_NUMBER, INVALID_COMPANY_STATUS, DATE_OF_CREATION, COMPANY_TYPE));
 
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
-        assertEquals(COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
+        assertEquals(INVALID_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
         assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
     }
@@ -84,8 +84,8 @@ public class CompanyDetailTransformerImplTest {
 
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
-        assertEquals(FORMATTED_ACTIVE_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
         assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
+        assertEquals(FORMATTED_ACTIVE_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
     }
 }
