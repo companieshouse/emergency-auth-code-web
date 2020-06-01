@@ -69,7 +69,7 @@ public class CompanyConfirmationPageController extends BaseController {
         try {
             String companyType = getCompanyDetails(companyNumber).getType();
 
-            if( !acceptedTypes.contains(companyType)){
+            if( !ACCEPTED_TYPES.contains(companyType)){
                 return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
             }
 
