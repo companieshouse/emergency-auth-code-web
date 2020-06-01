@@ -3,26 +3,27 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@PreviousController(OfficerConfirmationPageController.class)
-@RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirmation")
-public class ConfirmationPageController extends BaseController {
+@PreviousController(CompanyConfirmationPageController.class)
+@RequestMapping("/auth-code-requests/company/{companyNumber}/cannot-use-this-service")
+public class CannotUseThisServiceController extends BaseController {
 
-    private static final String CONFIRMATION_PAGE = "eac/confirmationPage";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
     @Override
     protected String getTemplateName() {
-        return CONFIRMATION_PAGE;
+        return CANNOT_USE_THIS_SERVICE;
     }
 
     @GetMapping
-    public String getConfirmationPage(Model model) {
+    public String getCompanyInformation(@PathVariable String companyNumber, Model model) {
 
-        addBackPageAttributeToModel(model);
+        addBackPageAttributeToModel(model, companyNumber);
 
         return getTemplateName();
     }

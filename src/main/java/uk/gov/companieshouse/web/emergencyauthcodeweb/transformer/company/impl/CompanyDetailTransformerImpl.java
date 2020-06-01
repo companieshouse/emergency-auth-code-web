@@ -26,6 +26,8 @@ public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
         companyDetail.setDateOfCreation(companyProfile.getDateOfCreation()
                 .format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
 
+        companyDetail.setType(companyProfile.getType());
+
         return companyDetail;
     }
 }
