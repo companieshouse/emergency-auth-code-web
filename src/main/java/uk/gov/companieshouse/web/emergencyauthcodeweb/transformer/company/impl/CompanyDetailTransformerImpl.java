@@ -1,12 +1,13 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.api.model.company.CompanyProfileApi;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.CompanyDetailTransformer;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
@@ -21,7 +22,7 @@ public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
         companyDetail.setCompanyNumber(companyProfile.getCompanyNumber());
 
         String companyStatus = companyProfile.getCompanyStatus();
-        companyDetail.setCompanyStatus(StringUtils.capitalize(companyStatus));
+        companyDetail.setCompanyStatus(formatCompanyStatus(companyStatus));
 
         companyDetail.setDateOfCreation(companyProfile.getDateOfCreation()
                 .format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
@@ -30,4 +31,25 @@ public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
 
         return companyDetail;
     }
+
+    private String formatCompanyStatus(String companyStatus) {
+        Map<String, String> statuses = new HashMap<>();
+        statuses.put("active", "Active");
+        statuses.put("dissolved", "Dissolved");
+        statuses.put("liquidation", "Liquidation");
+        statuses.put("receivership", "Receiver Action");
+        statuses.put("converted-closed", "Converted / Closed");
+        statuses.put("voluntary-arrangement", "Voluntary Arrangement");
+        statuses.put("insolvency-proceedings", "Insolvency Proceedings");
+        statuses.put("administration", "In Administration");
+        statuses.put("open", "Open");
+        statuses.put("closed", "Closed");
+
+        if(statuses.containsKey(companyStatus)){
+            return statuses.get(companyStatus);
+        }
+        return companyStatus;
+
+    }
+
 }
