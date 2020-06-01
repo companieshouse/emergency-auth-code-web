@@ -49,14 +49,14 @@ public class CompanyDetailTransformerImplTest {
 
     private static final String COMPANY_TYPE = "company-type";
 
-    private CompanyProfileApi createMockCompanyProfileApi(String companyName, String companyNumber, String companyStatus, LocalDate doc, String companyType) {
+    private CompanyProfileApi createMockCompanyProfileApi(String companyName, String companyNumber, String companyStatus, LocalDate dateOfCreation, String companyType) {
 
         CompanyProfileApi companyProfile = new CompanyProfileApi();
 
         companyProfile.setCompanyName(companyName);
         companyProfile.setCompanyNumber(companyNumber);
         companyProfile.setCompanyStatus(companyStatus);
-        companyProfile.setDateOfCreation(doc);
+        companyProfile.setDateOfCreation(dateOfCreation);
         companyProfile.setType(companyType);
 
         return companyProfile;
