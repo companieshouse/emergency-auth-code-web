@@ -35,7 +35,7 @@ public class CompanyConfirmationPageController extends BaseController {
     private static final boolean SHOW_CONTINUE = true;
     private static final String MODEL_ATTR_SHOW_CONTINUE = "showContinue";
 
-    private static final List<String> acceptedTypes = new ArrayList<>(
+    private static final List<String> ACCEPTED_TYPES = new ArrayList<>(
             Arrays.asList("ltd", "private-limited-guarant-nsc-limited-exemption", "plc",
                     "private-limited-guarant-nsc", "private-limited-shares-section-30-exemption",
                     "llp"));
