@@ -39,6 +39,7 @@ public class CompanyConfirmationPageController extends BaseController {
             Arrays.asList("ltd", "private-limited-guarant-nsc-limited-exemption", "plc",
                     "private-limited-guarant-nsc", "private-limited-shares-section-30-exemption",
                     "llp"));
+    private static final String ACCEPTED_STATUS = "Active";
 
     @Override
     protected String getTemplateName() {
@@ -67,9 +68,8 @@ public class CompanyConfirmationPageController extends BaseController {
     public String postListOfDirectors(@PathVariable("companyNumber") String companyNumber, HttpServletRequest request) {
 
         try {
-            String companyType = getCompanyDetails(companyNumber).getType();
-
-            if( !ACCEPTED_TYPES.contains(companyType)){
+            CompanyDetail companyDetail = getCompanyDetails(companyNumber);
+            if( !ACCEPTED_STATUS.equals(companyDetail.getCompanyStatus()) || !ACCEPTED_TYPES.contains(companyDetail.getType())){
                 return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
             }
 
