@@ -10,21 +10,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.navigation.NavigatorService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CompanyConfirmationPageControllerTest {
@@ -43,8 +44,13 @@ public class CompanyConfirmationPageControllerTest {
 
     private MockMvc mockMvc;
 
+    private EACRequest eacRequest = new EACRequest();
+
     @Mock
     private CompanyService mockCompanyService;
+
+    @Mock
+    private EmergencyAuthCodeService mockEACService;
 
     @Mock
     private NavigatorService navigatorService;
@@ -82,6 +88,12 @@ public class CompanyConfirmationPageControllerTest {
     @Test
     @DisplayName("Post to list of directors page - successful")
     void postRequestSuccessful() throws Exception {
+        Map<String, String> links = new HashMap<>();
+        links.put("self", "/selfLink");
+        eacRequest.setLinks(links);
+        when(mockEACService.createAuthCodeRequest(any(EACRequest.class))).thenReturn(eacRequest);
+
+
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
