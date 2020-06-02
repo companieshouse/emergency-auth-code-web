@@ -12,12 +12,15 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @NextController(ListOfDirectorsController.class)
@@ -27,6 +30,9 @@ public class CompanyConfirmationPageController extends BaseController {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private EmergencyAuthCodeService emergencyAuthCodeService;
+
     private static final String COMPANY_INFO = "eac/companyConfirmation";
     private static final String CANNOT_USE_THIS_SERVICE = "/cannot-use-this-service";
 
@@ -34,6 +40,7 @@ public class CompanyConfirmationPageController extends BaseController {
 
     private static final boolean SHOW_CONTINUE = true;
     private static final String MODEL_ATTR_SHOW_CONTINUE = "showContinue";
+    private static final String SELF_KEY = "self";
 
     private static final List<String> ACCEPTED_TYPES = new ArrayList<>(
             Arrays.asList("ltd", "private-limited-guarant-nsc-limited-exemption", "plc",
@@ -66,6 +73,10 @@ public class CompanyConfirmationPageController extends BaseController {
 
     @PostMapping
     public String postListOfDirectors(@PathVariable("companyNumber") String companyNumber, HttpServletRequest request) {
+        EACRequest eacRequest = new EACRequest();
+        EACRequest returnedRequest;
+        String requestId;
+        eacRequest.setCompanyNumber(companyNumber);
 
         try {
             CompanyDetail companyDetail = getCompanyDetails(companyNumber);
@@ -73,7 +84,10 @@ public class CompanyConfirmationPageController extends BaseController {
                 return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
             }
 
-            return navigatorService.getNextControllerRedirect(this.getClass());
+            returnedRequest = emergencyAuthCodeService.createAuthCodeRequest(eacRequest);
+            requestId = extractIdFromSelfLink(returnedRequest.getLinks());
+
+            return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
 
         } catch (ServiceException error) {
 
@@ -84,5 +98,11 @@ public class CompanyConfirmationPageController extends BaseController {
 
     private CompanyDetail getCompanyDetails(String companyNumber) throws ServiceException {
         return companyService.getCompanyDetail(companyNumber);
+    }
+
+    private String extractIdFromSelfLink(Map<String, String> links) {
+        String requestSelfLink = links.get(SELF_KEY);
+        int index = requestSelfLink.lastIndexOf('/');
+        return requestSelfLink.substring(index + 1);
     }
 }

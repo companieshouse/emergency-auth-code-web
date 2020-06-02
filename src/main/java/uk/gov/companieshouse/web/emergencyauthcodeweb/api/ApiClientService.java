@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.api;
 
 import uk.gov.companieshouse.api.ApiClient;
+import uk.gov.companieshouse.api.InternalApiClient;
 
 /**
  * The {@code ApiClientService} interface provides an abstraction that can be
@@ -10,4 +11,5 @@ import uk.gov.companieshouse.api.ApiClient;
 public interface ApiClientService {
 
     ApiClient getApiClient();
+    InternalApiClient getInternalApiClient();
 }
