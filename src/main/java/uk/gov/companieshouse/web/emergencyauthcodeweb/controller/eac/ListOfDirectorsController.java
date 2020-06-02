@@ -12,7 +12,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @Controller
 @PreviousController(CompanyConfirmationPageController.class)
 @NextController(OfficerConfirmationPageController.class)
-@RequestMapping("/auth-code-requests/requests/request_id_placeholder/officers")
+@RequestMapping("/auth-code-requests/requests/{requestId}/officers")
 public class ListOfDirectorsController extends BaseController {
 
     private static final String LIST_OF_DIRECTORS = "eac/listOfDirectors";
