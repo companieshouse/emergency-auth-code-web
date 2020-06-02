@@ -1,14 +1,19 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.company;
 
+import javax.validation.constraints.NotNull;
+
 public class CompanyDetail {
 
     private String companyName;
 
+    @NotNull
     private String companyNumber;
 
     private String companyStatus;
 
     private String dateOfCreation;
+
+    private String type;
 
     public String getCompanyName() {
         return companyName;
@@ -35,4 +40,8 @@ public class CompanyDetail {
     public void setDateOfCreation(String dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 }
