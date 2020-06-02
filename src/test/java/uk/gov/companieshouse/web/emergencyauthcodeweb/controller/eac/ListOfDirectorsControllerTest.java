@@ -21,7 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 public class ListOfDirectorsControllerTest {
-    private static final String EAC_LIST_OF_DIRECTORS_PATH = "/auth-code-requests/requests/{requestId}/officers";
+    private static final String REQUEST_ID = "abc123";
+    private static final String EAC_LIST_OF_DIRECTORS_PATH =
+            "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
     private static final String EAC_LIST_OF_DIRECTORS_VIEW = "eac/listOfDirectors";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
 
