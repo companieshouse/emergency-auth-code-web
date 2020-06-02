@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.impl.EmergencyAuthCodeServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @NextController(ListOfDirectorsController.class)
@@ -22,12 +25,16 @@ public class CompanyConfirmationPageController extends BaseController {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private EmergencyAuthCodeServiceImpl emergencyAuthCodeServiceImpl;
+
     private static final String COMPANY_INFO = "eac/companyConfirmation";
 
     private static final String TEMPLATE_HEADING = "Confirm company details";
 
     private static final boolean SHOW_CONTINUE = true;
     private static final String MODEL_ATTR_SHOW_CONTINUE = "showContinue";
+    private static final String SELF_KEY = "self";
 
     @Override
     protected String getTemplateName() {
@@ -53,9 +60,27 @@ public class CompanyConfirmationPageController extends BaseController {
     }
 
     @PostMapping
-    public String postListOfDirectors() {
+    public String postListOfDirectors(@PathVariable("company_number") String companyNumber, HttpServletRequest request) {
+        EACRequest eacRequest = new EACRequest();
+        EACRequest returnedRequest;
+        String requestId;
+        eacRequest.setCompanyNumber(companyNumber);
 
-        return navigatorService.getNextControllerRedirect(this.getClass());
+
+        try {
+            returnedRequest = emergencyAuthCodeServiceImpl.createAuthCodeRequest(eacRequest);
+            requestId = extractIdFromSelfLink(returnedRequest.getLinks());
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
+        }
+        return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
+    }
+
+    private String extractIdFromSelfLink(Map<String, String> links) {
+        String requestSelfLink = links.get(SELF_KEY);
+        int index = requestSelfLink.lastIndexOf('/');
+        return requestSelfLink.substring(index+1);
     }
 
 }
