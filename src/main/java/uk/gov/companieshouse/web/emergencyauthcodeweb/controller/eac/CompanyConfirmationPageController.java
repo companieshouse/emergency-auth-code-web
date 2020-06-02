@@ -12,7 +12,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.impl.EmergencyAuthCodeServiceImpl;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class CompanyConfirmationPageController extends BaseController {
     private CompanyService companyService;
 
     @Autowired
-    private EmergencyAuthCodeServiceImpl emergencyAuthCodeServiceImpl;
+    private EmergencyAuthCodeService emergencyAuthCodeService;
 
     private static final String COMPANY_INFO = "eac/companyConfirmation";
 
@@ -68,7 +68,7 @@ public class CompanyConfirmationPageController extends BaseController {
 
 
         try {
-            returnedRequest = emergencyAuthCodeServiceImpl.createAuthCodeRequest(eacRequest);
+            returnedRequest = emergencyAuthCodeService.createAuthCodeRequest(eacRequest);
             requestId = extractIdFromSelfLink(returnedRequest.getLinks());
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
