@@ -86,7 +86,7 @@ public class EmergencyAuthCodeServiceImplTest {
     @Test
     @DisplayName("Test post request to create an EmergencyAuthCodeRequest is unsuccessful - URIValidationException")
     void testPostEACRequest_Unsuccessful_URIValidationException()
-            throws ApiErrorResponseException, URIValidationException, ServiceException {
+            throws ApiErrorResponseException, URIValidationException {
         when(emergencyAuthCodeTransformer.clientToApi(eacRequest)).thenReturn(eacRequestApi);
         when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
         when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
