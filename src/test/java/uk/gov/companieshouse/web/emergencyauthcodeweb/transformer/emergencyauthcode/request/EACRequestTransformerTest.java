@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode;
+package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class EmergencyAuthCodeTransformerTest {
+public class EACRequestTransformerTest {
 
     private static final String KIND = "kind";
     private static final String STATUS = "status";
@@ -37,11 +37,11 @@ public class EmergencyAuthCodeTransformerTest {
     private EACRequest eacRequest;
     private PrivateEACRequestApi eacRequestApi;
 
-    private EmergencyAuthCodeTransformer transformer;
+    private EACRequestTransformer transformer;
 
     @BeforeEach
     void setUp() {
-        transformer = Mappers.getMapper(EmergencyAuthCodeTransformer.class);
+        transformer = Mappers.getMapper(EACRequestTransformer.class);
         links.put(SELF_KEY, SELF_VALUE);
 
         eacRequest = new EACRequest();
