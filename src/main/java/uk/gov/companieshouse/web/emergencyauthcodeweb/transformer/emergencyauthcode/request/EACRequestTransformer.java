@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode;
+package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -9,7 +9,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.re
 
 @RequestScope
 @Mapper(componentModel = "spring")
-public interface EmergencyAuthCodeTransformer {
+public interface EACRequestTransformer {
 
     @Mapping(source = "eacRequest.kind", target = "kind")
     @Mapping(source = "eacRequest.status", target = "status")
