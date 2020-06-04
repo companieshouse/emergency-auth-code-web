@@ -13,28 +13,33 @@
 
     <form th:action="@{''}" method="post" class="form" id="cannot-use-service">
 
-        <h1 class="govuk-heading-xl">
-            You cannot use this service
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl">
+                    You cannot use this service
 
-        </h1>
+                </h1>
 
-        <h2 class="govuk-body">We cannot post an authorisation code to an officer's home address because the company:</h2>
+                <h2 class="govuk-body">We cannot post an authorisation code to an officer's home address because the company:</h2>
 
-        <ul class="govuk-list govuk-list--bullet">
-            <li>does not have any active officers</li>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>does not have any active officers</li>
 
-            <li>in not based in the UK</li>
+                    <li>in not based in the UK</li>
 
-            <li>is a limited partnership (LP)</li>
+                    <li>is a limited partnership (LP)</li>
 
-            <li>is no longer active (insolvent)</li>
+                    <li>is no longer active (insolvent)</li>
 
-            <li>only has corporate officers</li>
-            <p></ul>
+                    <li>only has corporate officers</li>
+                    <p></ul>
 
-        <p class="govuk-body">You are still able to <a href="/webfiling">request an authorisation code to the company's registered office address in
-            WebFiling</a>.
-        <p>
+                <p class="govuk-body">You are still able to <a href="/webfiling">request an authorisation code to the company's registered office
+                    address in
+                    WebFiling</a>.
+                </p>
+            </div>
+        </div>
 
     </form>
 </div>
