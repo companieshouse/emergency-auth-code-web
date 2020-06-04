@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.web.context.annotation.RequestScope;
 import uk.gov.companieshouse.api.model.emergencyauthcode.authcoderequest.PrivateEACRequestApi;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 
 @RequestScope
 @Mapper(componentModel = "spring")
