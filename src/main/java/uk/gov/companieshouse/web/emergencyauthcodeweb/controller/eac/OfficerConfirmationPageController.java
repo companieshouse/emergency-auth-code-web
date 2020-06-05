@@ -3,6 +3,7 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
@@ -12,7 +13,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @Controller
 @PreviousController(ListOfDirectorsController.class)
 @NextController(ConfirmationPageController.class)
-@RequestMapping("/auth-code-requests/requests/request_id_placeholder/confirm-officer")
+@RequestMapping("/auth-code-requests/requests/{requestId}/confirm-officer")
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
 
@@ -22,17 +23,17 @@ public class OfficerConfirmationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getCompanyInformation(Model model) {
+    public String getCompanyInformation(@PathVariable String requestId, Model model) {
 
-        addBackPageAttributeToModel(model);
+        addBackPageAttributeToModel(model, requestId);
 
         return getTemplateName();
     }
 
 
     @PostMapping
-    public String postListOfDirectors() {
+    public String postListOfDirectors(@PathVariable String requestId) {
 
-        return navigatorService.getNextControllerRedirect(this.getClass());
+        return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
 }

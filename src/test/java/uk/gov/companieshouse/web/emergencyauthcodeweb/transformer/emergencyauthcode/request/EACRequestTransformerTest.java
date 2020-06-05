@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode;
+package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.api.model.emergencyauthcode.authcoderequest.PrivateEACRequestApi;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.EACRequest;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class EmergencyAuthCodeTransformerTest {
+public class EACRequestTransformerTest {
 
     private static final String KIND = "kind";
     private static final String STATUS = "status";
@@ -37,11 +37,11 @@ public class EmergencyAuthCodeTransformerTest {
     private EACRequest eacRequest;
     private PrivateEACRequestApi eacRequestApi;
 
-    private EmergencyAuthCodeTransformer transformer;
+    private EACRequestTransformer transformer;
 
     @BeforeEach
     void setUp() {
-        transformer = Mappers.getMapper(EmergencyAuthCodeTransformer.class);
+        transformer = Mappers.getMapper(EACRequestTransformer.class);
         links.put(SELF_KEY, SELF_VALUE);
 
         eacRequest = new EACRequest();

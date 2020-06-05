@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode;
+package uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
