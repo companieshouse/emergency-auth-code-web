@@ -44,6 +44,9 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
                     .createAuthCode(uri, privateEACRequestApi).execute();
             return eacRequestTransformer.apiToClient(apiResponse.getData());
         } catch (ApiErrorResponseException ex) {
+            if (ex.getStatusCode() == 404) {
+                return null;
+            }
             throw new ServiceException("Error creating emergency auth code request", ex);
         } catch (URIValidationException ex) {
             throw new ServiceException("Invalid URI for emergency auth code request", ex);
