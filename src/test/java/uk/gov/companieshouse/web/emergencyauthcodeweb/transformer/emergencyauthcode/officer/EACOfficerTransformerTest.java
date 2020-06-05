@@ -84,4 +84,12 @@ public class EACOfficerTransformerTest {
         assertEquals(eacOfficer.getCountryOfResidence(), result.getCountryOfResidence());
         assertEquals(eacOfficer.getOccupation(), result.getOccupation());
     }
+
+    @Test
+    @DisplayName("Test formatFullName method on empty string")
+    void validateFormatFullName() {
+        eacOfficerApi.setName("");
+        EACOfficer result = eacOfficerTransformer.apiToClient(eacOfficerApi);
+        assertEquals("", result.getName());
+    }
 }

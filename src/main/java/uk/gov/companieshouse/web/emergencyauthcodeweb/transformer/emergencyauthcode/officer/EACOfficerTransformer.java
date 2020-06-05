@@ -25,7 +25,10 @@ public interface EACOfficerTransformer {
 
     //Convert FIRSTNAME MIDDLENAME LASTNAME to LASTNAME, Firstname Middlename
     @Named("formatFullName")
-    public static String formatFullName(String name) {
+    static String formatFullName(String name) {
+        if(name.isEmpty()) {
+            return "";
+        }
         int finalSpaceIndex = name.lastIndexOf(' ');
         String lastName = name.substring(finalSpaceIndex + 1);
         String firstNameAndMiddleName = WordUtils
