@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriTemplate;
 import uk.gov.companieshouse.api.InternalApiClient;
@@ -44,6 +45,9 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
                     .createAuthCode(uri, privateEACRequestApi).execute();
             return eacRequestTransformer.apiToClient(apiResponse.getData());
         } catch (ApiErrorResponseException ex) {
+            if (ex.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
+                return null;
+            }
             throw new ServiceException("Error creating emergency auth code request", ex);
         } catch (URIValidationException ex) {
             throw new ServiceException("Invalid URI for emergency auth code request", ex);
