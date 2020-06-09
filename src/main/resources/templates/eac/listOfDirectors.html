@@ -12,20 +12,31 @@
     <form th:action="@{''}" method="post" th:object="${eacOfficer}" class="form" id="officer-list">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <div class="form-group">
+                <div th:replace="fragments/globalErrors :: globalErrors"></div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('id')} ? 'govuk-form-group--error' : ''">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading">
                             Which director needs the authentication code?
                         </h1>
                     </legend>
+                    <span class="govuk-error-message"
+                          id="id-errorId"
+                          th:if="${#fields.hasErrors('id')}"
+                          th:each="e : ${#fields.errors('id')}" th:text="${e}" >
+                    </span>
                     <span id="list-of-officers-hint" class="govuk-hint">
                         You should only select a director if you know they have given us their most recent home address.
                     </span>
                         <div class="govuk-radios">
 
                             <div th:each="officer : ${eacOfficerList.items}" class="govuk-radios__item">
-                                <input class="govuk-radios__input" th:field="*{id}" id="list-of-officers" name="chooseOfficerRadio" type="radio" th:value="${officer.id}">
-                                <label class="govuk-label govuk-radios__label" th:for="${officer.id}" th:text="${officer.name}">
+                                <input class="govuk-radios__input"
+                                       name="chooseOfficerRadio"
+                                       type="radio"
+                                       th:value="${officer.id}"
+                                       th:field="*{id}"
+                                       th:errorclass="govuk-error-message">
+                                <label class="govuk-label govuk-radios__label" th:for="${#ids.prev('id')}" th:text="${officer.name}">
                                 </label>
                             </div>
 
