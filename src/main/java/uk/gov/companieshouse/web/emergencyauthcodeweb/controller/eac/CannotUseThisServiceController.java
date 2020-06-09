@@ -21,7 +21,7 @@ public class CannotUseThisServiceController extends BaseController {
     }
 
     @GetMapping
-    public String getCompanyInformation(@PathVariable String companyNumber, Model model) {
+    public String getCannotUseThisService(@PathVariable String companyNumber, Model model) {
 
         addBackPageAttributeToModel(model, companyNumber);
 

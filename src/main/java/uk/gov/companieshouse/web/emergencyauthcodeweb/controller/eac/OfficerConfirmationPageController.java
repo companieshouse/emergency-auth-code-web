@@ -11,7 +11,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousControl
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 
 @Controller
-@PreviousController(ListOfDirectorsController.class)
+@PreviousController(ListOfOfficersController.class)
 @NextController(ConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/{requestId}/confirm-officer")
 public class OfficerConfirmationPageController extends BaseController {
@@ -23,7 +23,7 @@ public class OfficerConfirmationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getCompanyInformation(@PathVariable String requestId, Model model) {
+    public String getOfficerConfirmation(@PathVariable String requestId, Model model) {
 
         addBackPageAttributeToModel(model, requestId);
 
@@ -32,7 +32,7 @@ public class OfficerConfirmationPageController extends BaseController {
 
 
     @PostMapping
-    public String postListOfDirectors(@PathVariable String requestId) {
+    public String postOfficerConfirmation(@PathVariable String requestId) {
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
