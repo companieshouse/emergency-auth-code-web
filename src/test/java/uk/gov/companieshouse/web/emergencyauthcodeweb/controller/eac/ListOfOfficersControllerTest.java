@@ -27,7 +27,7 @@ public class ListOfOfficersControllerTest {
     private static final String COMPANY_NUMBER = "12345678";
     private static final String EAC_LIST_OF_OFFICERS_PATH =
             "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
-    private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfDirectors";
+    private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfOfficers";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String TEMPLATE_OFFICER_LIST_MODEL = "eacOfficerList";
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
@@ -52,7 +52,7 @@ public class ListOfOfficersControllerTest {
     }
 
     @Test
-    @DisplayName("Get list of directors view - successful")
+    @DisplayName("Get list of officers view - successful")
     void getRequestSuccessful() throws Exception {
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
