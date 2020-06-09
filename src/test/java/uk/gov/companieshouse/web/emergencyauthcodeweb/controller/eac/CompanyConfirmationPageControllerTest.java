@@ -109,7 +109,7 @@ public class CompanyConfirmationPageControllerTest {
     }
 
     @Test
-    @DisplayName("Post to list of directors page - successful")
+    @DisplayName("Post to list of officers page - successful")
     void postRequestSuccessful() throws Exception {
         Map<String, String> links = new HashMap<>();
         links.put("self", "/selfLink");
@@ -159,7 +159,7 @@ public class CompanyConfirmationPageControllerTest {
 
     @Test
     @DisplayName("Post to cannot use service page - no eligible officers found")
-    void postRequestNoEligibleDirectors() throws Exception {
+    void postRequestNoEligibleOfficers() throws Exception {
         when(mockEACService.createAuthCodeRequest(any(EACRequest.class))).thenReturn(null);
 
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();

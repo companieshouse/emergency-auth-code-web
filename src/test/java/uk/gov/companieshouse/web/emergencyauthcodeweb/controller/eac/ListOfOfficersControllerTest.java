@@ -22,12 +22,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ListOfDirectorsControllerTest {
+public class ListOfOfficersControllerTest {
     private static final String REQUEST_ID = "abc123";
     private static final String COMPANY_NUMBER = "12345678";
-    private static final String EAC_LIST_OF_DIRECTORS_PATH =
+    private static final String EAC_LIST_OF_OFFICERS_PATH =
             "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
-    private static final String EAC_LIST_OF_DIRECTORS_VIEW = "eac/listOfDirectors";
+    private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfOfficers";
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String TEMPLATE_OFFICER_LIST_MODEL = "eacOfficerList";
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
@@ -44,7 +44,7 @@ public class ListOfDirectorsControllerTest {
     private NavigatorService navigatorService;
 
     @InjectMocks
-    private ListOfDirectorsController controller;
+    private ListOfOfficersController controller;
 
     @BeforeEach
     void setUp() {
@@ -52,15 +52,15 @@ public class ListOfDirectorsControllerTest {
     }
 
     @Test
-    @DisplayName("Get list of directors view - successful")
+    @DisplayName("Get list of officers view - successful")
     void getRequestSuccessful() throws Exception {
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
         when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber())).thenReturn(eacOfficerList);
 
-        this.mockMvc.perform(get(EAC_LIST_OF_DIRECTORS_PATH))
+        this.mockMvc.perform(get(EAC_LIST_OF_OFFICERS_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(EAC_LIST_OF_DIRECTORS_VIEW))
+                .andExpect(view().name(EAC_LIST_OF_OFFICERS_VIEW))
                 .andExpect(model().attributeExists(TEMPLATE_OFFICER_LIST_MODEL))
                 .andExpect(model().attributeExists(TEMPLATE_INDIVIDUAL_OFFICER_MODEL));
     }
@@ -71,7 +71,7 @@ public class ListOfDirectorsControllerTest {
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
-        this.mockMvc.perform(post(EAC_LIST_OF_DIRECTORS_PATH))
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(MOCK_CONTROLLER_PATH));
     }
