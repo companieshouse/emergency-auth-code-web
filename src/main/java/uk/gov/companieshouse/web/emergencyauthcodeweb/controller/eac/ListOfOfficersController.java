@@ -13,7 +13,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
-import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.form.ListOfOfficersForm;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficerList;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
@@ -47,8 +47,12 @@ public class ListOfOfficersController extends BaseController {
             //Add back button with company number as path variable
             addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
 
-            model.addAttribute("eacOfficerList", eacOfficerList);
-            model.addAttribute("eacOfficer", new EACOfficer());
+            //Create form backer for List Of Officer form
+            ListOfOfficersForm listOfOfficersForm = new ListOfOfficersForm();
+            listOfOfficersForm.setEacOfficerList(eacOfficerList.getItems());
+            listOfOfficersForm.setCompanyNumber(eacRequest.getCompanyNumber());
+
+            model.addAttribute("eacOfficer", listOfOfficersForm);
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
             return ERROR_VIEW;
@@ -60,23 +64,16 @@ public class ListOfOfficersController extends BaseController {
 
     @PostMapping
     public String postListOfDirectors(@PathVariable String requestId,
-            @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer, BindingResult bindingResult,
+            @ModelAttribute("eacOfficer") @Valid ListOfOfficersForm eacOfficer, BindingResult bindingResult,
             HttpServletRequest request, Model model) {
         String id = eacOfficer.getId();
 
         if(bindingResult.hasErrors()) {
-            try {
-                EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
-                EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber());
+            //Add back button with company number as path variable
+            addBackPageAttributeToModel(model, eacOfficer.getCompanyNumber());
 
-                //Add back button with company number as path variable
-                addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
-
-                model.addAttribute("eacOfficerList", eacOfficerList);
-            } catch (ServiceException ex) {
-                LOGGER.errorRequest(request, ex.getMessage(), ex);
-                return ERROR_VIEW;
-            }
+            //Add the same officer list to the view
+            model.addAttribute("eacOfficerList", eacOfficer.getEacOfficerList());
 
             return getTemplateName();
         }

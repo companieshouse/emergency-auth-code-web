@@ -7,11 +7,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class EACOfficer {
-    @NotNull(message = "{officer.selectionNotMade}")
     @JsonProperty("id")
     private String id;
 
