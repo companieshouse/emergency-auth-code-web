@@ -42,7 +42,7 @@ public class OfficerConfirmationPageControllerTest {
     }
 
     @Test
-    @DisplayName("Get list of directors view - successful")
+    @DisplayName("Get list of officers view - successful")
     void getRequestSuccessful() throws Exception {
         when(navigatorService.getPreviousControllerPath(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);

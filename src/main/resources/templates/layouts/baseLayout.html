@@ -29,7 +29,8 @@
     <script th:src="@{{cdnUrl}/javascripts/vendor/jquery-3.3.1.min.js(cdnUrl=${@environment.getProperty('cdn.url')})}" type="text/javascript"></script>
 
     <div class="entire-wrapper">
-        <div th:replace="fragments/header :: header (headerText = 'Request an authentication code to be sent to a home address')"></div>
+        <div th:replace="fragments/header :: header(headerText = 'Request an authentication code to be sent to a home address',
+        headerURL = 'start' )"></div>
         <div class="govuk-width-container">
             <div th:replace="fragments/betaBanner :: betaBanner (surveyLink = 'placeholder')"></div>
             <div th:replace="fragments/backButtonLink :: backButtonLink"></div>
@@ -45,6 +46,6 @@
     <script th:src="@{{cdnUrl}/javascripts/vendor/selection-buttons.js(cdnUrl=${@environment.getProperty('cdn.url')})}" type="text/javascript"></script>
     <script th:src="@{{cdnUrl}/javascripts/app/piwik-enable.js(cdnUrl=${@environment.getProperty('cdn.url')})}" type="text/javascript"></script>
 
-    <div th:replace="fragments/piwik :: piwik (moduleName = 'eac')"></div>
+    <div th:replace="fragments/piwik :: piwik (moduleName = 'emergency-auth-code')"></div>
 </body>
 </html>

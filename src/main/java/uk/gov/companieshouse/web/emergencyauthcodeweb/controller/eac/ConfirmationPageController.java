@@ -23,8 +23,6 @@ public class ConfirmationPageController extends BaseController {
     @GetMapping
     public String getConfirmationPage(@PathVariable String requestId, Model model) {
 
-        addBackPageAttributeToModel(model, requestId);
-
         return getTemplateName();
     }
 }

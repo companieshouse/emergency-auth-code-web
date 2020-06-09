@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@NextController(ListOfDirectorsController.class)
+@NextController(ListOfOfficersController.class)
 @RequestMapping("/auth-code-requests/company/{companyNumber}/confirm")
 public class CompanyConfirmationPageController extends BaseController {
 
@@ -72,7 +72,7 @@ public class CompanyConfirmationPageController extends BaseController {
     }
 
     @PostMapping
-    public String postListOfDirectors(@PathVariable("companyNumber") String companyNumber, HttpServletRequest request) {
+    public String postCompanyInformation(@PathVariable("companyNumber") String companyNumber, HttpServletRequest request) {
         EACRequest eacRequest = new EACRequest();
         EACRequest returnedRequest;
         String requestId;
@@ -85,6 +85,10 @@ public class CompanyConfirmationPageController extends BaseController {
             }
 
             returnedRequest = emergencyAuthCodeService.createAuthCodeRequest(eacRequest);
+            // If the response from creating the AuthCodeRequest is null the company had no eligible officers
+            if (returnedRequest == null) {
+                return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
+            }
             requestId = extractIdFromSelfLink(returnedRequest.getLinks());
 
             return navigatorService.getNextControllerRedirect(this.getClass(), requestId);

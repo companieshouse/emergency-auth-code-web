@@ -25,20 +25,20 @@ import javax.validation.Valid;
 @PreviousController(CompanyConfirmationPageController.class)
 @NextController(OfficerConfirmationPageController.class)
 @RequestMapping("/auth-code-requests/requests/{requestId}/officers")
-public class ListOfDirectorsController extends BaseController {
+public class ListOfOfficersController extends BaseController {
 
-    private static final String LIST_OF_DIRECTORS = "eac/listOfDirectors";
+    private static final String LIST_OF_OFFICERS = "eac/listOfOfficers";
 
     @Autowired
     private EmergencyAuthCodeService emergencyAuthCodeService;
 
     @Override
     protected String getTemplateName() {
-        return LIST_OF_DIRECTORS;
+        return LIST_OF_OFFICERS;
     }
 
     @GetMapping
-    public String getListOfDirectors(@PathVariable String requestId, Model model, HttpServletRequest request) {
+    public String getListOfOfficers(@PathVariable String requestId, Model model, HttpServletRequest request) {
 
         try {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);

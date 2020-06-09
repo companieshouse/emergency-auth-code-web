@@ -109,7 +109,7 @@ public class CompanyConfirmationPageControllerTest {
     }
 
     @Test
-    @DisplayName("Post to list of directors page - successful")
+    @DisplayName("Post to list of officers page - successful")
     void postRequestSuccessful() throws Exception {
         Map<String, String> links = new HashMap<>();
         links.put("self", "/selfLink");
@@ -155,6 +155,23 @@ public class CompanyConfirmationPageControllerTest {
         this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name(EAC_CANNOT_USE_SERVICE_PATH));
+    }
+
+    @Test
+    @DisplayName("Post to cannot use service page - no eligible officers found")
+    void postRequestNoEligibleOfficers() throws Exception {
+        when(mockEACService.createAuthCodeRequest(any(EACRequest.class))).thenReturn(null);
+
+        CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
+        validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
+        validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+
+        when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
+
+        this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(EAC_CANNOT_USE_SERVICE_PATH));
+
     }
 
     @Test
