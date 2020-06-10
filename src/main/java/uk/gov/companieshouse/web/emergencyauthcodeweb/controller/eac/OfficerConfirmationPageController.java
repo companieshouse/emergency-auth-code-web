@@ -2,13 +2,18 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.form.OfficerConfirmation;
+
+import javax.validation.Valid;
 
 @Controller
 @PreviousController(ListOfOfficersController.class)
@@ -25,6 +30,8 @@ public class OfficerConfirmationPageController extends BaseController {
     @GetMapping
     public String getOfficerConfirmation(@PathVariable String requestId, Model model) {
 
+        model.addAttribute("officerConfirmation", new OfficerConfirmation());
+
         addBackPageAttributeToModel(model, requestId);
 
         return getTemplateName();
@@ -32,7 +39,13 @@ public class OfficerConfirmationPageController extends BaseController {
 
 
     @PostMapping
-    public String postOfficerConfirmation(@PathVariable String requestId) {
+    public String postOfficerConfirmation(@PathVariable String requestId,
+            @ModelAttribute @Valid OfficerConfirmation officerConfirmation,
+            BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return getTemplateName();
+        }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
