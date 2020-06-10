@@ -29,6 +29,7 @@ public class OfficerConfirmationPageControllerTest {
     private static final String BACK_BUTTON_MODEL_ATTR = "backButton";
 
     private static final String OFFICER_CONFIRMATION_PARAM = "confirm";
+    private static final String VALID_CONFIRMATION = "true";
 
     private MockMvc mockMvc;
 
@@ -62,7 +63,7 @@ public class OfficerConfirmationPageControllerTest {
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
         this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
-                    .param(OFFICER_CONFIRMATION_PARAM, "true"))
+                    .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name(MOCK_CONTROLLER_PATH));
     }
