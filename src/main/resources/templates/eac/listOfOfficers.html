@@ -35,7 +35,7 @@
                                 <input class="govuk-radios__input"
                                        name="chooseOfficerRadio"
                                        type="radio"
-                                       th:value="${officer.id} + '-list-of-officers"
+                                       th:value="${officer.id} + '-list-of-officers'"
                                        th:field="*{id}"
                                        th:errorclass="govuk-error-message">
                                 <label class="govuk-label govuk-radios__label" th:for="${officer.id} + '-list-of-officers'" th:text="${officer.name}">

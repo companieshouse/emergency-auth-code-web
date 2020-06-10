@@ -59,11 +59,8 @@ public class ListOfOfficersController extends BaseController {
 
     @PostMapping
     public String postListOfDirectors(@PathVariable String requestId,
-            @Valid @ModelAttribute("eacOfficer") EACOfficer eacOfficer, BindingResult bindingResult,
+            @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer, BindingResult bindingResult,
             HttpServletRequest request, Model model) {
-
-        String id = eacOfficer.getId();
-
         if(bindingResult.hasErrors()) {
             try {
                 EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
