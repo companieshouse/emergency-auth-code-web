@@ -44,7 +44,6 @@ public class ListOfOfficersController extends BaseController {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
             EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber());
 
-            //Add back button with company number as path variable
             addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
 
             model.addAttribute("eacOfficerList", eacOfficerList);
@@ -62,14 +61,11 @@ public class ListOfOfficersController extends BaseController {
     public String postListOfDirectors(@PathVariable String requestId,
             @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer, BindingResult bindingResult,
             HttpServletRequest request, Model model) {
-        String id = eacOfficer.getId();
-
         if(bindingResult.hasErrors()) {
             try {
                 EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
                 EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber());
 
-                //Add back button with company number as path variable
                 addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
 
                 model.addAttribute("eacOfficerList", eacOfficerList);
