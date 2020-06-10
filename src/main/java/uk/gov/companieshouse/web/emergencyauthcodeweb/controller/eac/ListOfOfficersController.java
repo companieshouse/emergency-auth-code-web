@@ -3,6 +3,7 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.re
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @PreviousController(CompanyConfirmationPageController.class)
@@ -42,7 +44,6 @@ public class ListOfOfficersController extends BaseController {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
             EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber());
 
-            //Add back button with company number as path variable
             addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
 
             model.addAttribute("eacOfficerList", eacOfficerList);
@@ -57,9 +58,24 @@ public class ListOfOfficersController extends BaseController {
 
 
     @PostMapping
-    public String postListOfOfficers(@PathVariable String requestId, @ModelAttribute("eacOfficer") EACOfficer eacOfficer) {
-        String id = eacOfficer.getId();
-        LOGGER.info("ID OF THE SELECTED OFFICER: " + id);
+    public String postListOfDirectors(@PathVariable String requestId,
+            @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer, BindingResult bindingResult,
+            HttpServletRequest request, Model model) {
+        if(bindingResult.hasErrors()) {
+            try {
+                EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+                EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber());
+
+                addBackPageAttributeToModel(model, eacRequest.getCompanyNumber());
+
+                model.addAttribute("eacOfficerList", eacOfficerList);
+            } catch (ServiceException ex) {
+                LOGGER.errorRequest(request, ex.getMessage(), ex);
+                return ERROR_VIEW;
+            }
+
+            return getTemplateName();
+        }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
