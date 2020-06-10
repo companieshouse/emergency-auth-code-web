@@ -28,6 +28,8 @@ public class OfficerConfirmationPageControllerTest {
 
     private static final String BACK_BUTTON_MODEL_ATTR = "backButton";
 
+    private static final String OFFICER_CONFIRMATION_PARAM = "confirm";
+
     private MockMvc mockMvc;
 
     @Mock
@@ -59,8 +61,19 @@ public class OfficerConfirmationPageControllerTest {
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
-        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(MOCK_CONTROLLER_PATH));
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
+                    .param(OFFICER_CONFIRMATION_PARAM, "true"))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name(MOCK_CONTROLLER_PATH));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - unsuccessful - checkbox not checked, which means the param returns false")
+    void postRequestSuccessful_Unsuccessful_CheckboxNotChecked() throws Exception {
+
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
+                .param(OFFICER_CONFIRMATION_PARAM, "false"))
+                .andExpect(status().isOk())
+                .andExpect(view().name(EAC_OFFICER_CONFIRMATION_VIEW));
     }
 }
