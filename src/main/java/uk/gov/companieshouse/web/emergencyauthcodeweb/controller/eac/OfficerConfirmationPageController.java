@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @PreviousController(ListOfOfficersController.class)
@@ -17,16 +24,33 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
 
+    @Autowired
+    private EmergencyAuthCodeService emergencyAuthCodeService;
+
     @Override
     protected String getTemplateName() {
         return OFFICER_INFORMATION;
     }
 
     @GetMapping
-    public String getOfficerConfirmation(@PathVariable String requestId, Model model) {
+    public String getOfficerConfirmation(@PathVariable String requestId, Model model, HttpServletRequest request) {
 
-        addBackPageAttributeToModel(model, requestId);
+        try {
+            // Retrieve details for the selected officer from the API
+            EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+            if (eacRequest.getStatus().equals("sent")) {
+                LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
+                return ERROR_VIEW;
+            }
+            EACOfficer eacOfficer = emergencyAuthCodeService.getOfficer(eacRequest.getCompanyNumber(), eacRequest.getOfficerId());
 
+            addBackPageAttributeToModel(model, requestId);
+
+            model.addAttribute("eacOfficer", eacOfficer);
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
+        }
         return getTemplateName();
     }
 

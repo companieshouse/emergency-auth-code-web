@@ -57,9 +57,29 @@ public class ListOfOfficersController extends BaseController {
 
 
     @PostMapping
-    public String postListOfOfficers(@PathVariable String requestId, @ModelAttribute("eacOfficer") EACOfficer eacOfficer) {
-        String id = eacOfficer.getId();
-        LOGGER.info("ID OF THE SELECTED OFFICER: " + id);
+    public String postListOfOfficers(@PathVariable String requestId,
+                                     @ModelAttribute("eacOfficer") EACOfficer eacOfficer,
+                                     HttpServletRequest request) {
+
+        // Retrieve company number from API for later request
+        String companyNumber;
+        try {
+            companyNumber = emergencyAuthCodeService.getEACRequest(requestId).getCompanyNumber();
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
+        }
+
+        EACRequest eacRequest = new EACRequest();
+        eacRequest.setOfficerId(eacOfficer.getId());
+        eacRequest.setCompanyNumber(companyNumber);
+
+        // Update API with selected officer
+        try {
+            emergencyAuthCodeService.updateEACRequest(requestId, eacRequest);
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+        }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
