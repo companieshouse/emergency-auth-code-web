@@ -15,5 +15,5 @@ public interface EmergencyAuthCodeService {
 
     EACRequest getEACRequest(String requestId) throws ServiceException;
 
-    public Void updateEACRequest(String requestId, EACRequest eacRequest) throws ServiceException;
+    Void updateEACRequest(String requestId, EACRequest eacRequest) throws ServiceException;
 }
