@@ -41,7 +41,7 @@ public class OfficerConfirmationPageController extends BaseController {
         try {
             // Retrieve details for the selected officer from the API
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
-            if (eacRequest.getStatus().equals("sent")) {
+            if (eacRequest.getStatus().equals("submitted")) {
                 LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
                 return ERROR_VIEW;
             }

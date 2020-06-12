@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficerList;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
@@ -31,6 +32,7 @@ public class ListOfOfficersControllerTest {
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String TEMPLATE_OFFICER_LIST_MODEL = "eacOfficerList";
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
+    private static final String ERROR_VIEW = "error";
 
     private MockMvc mockMvc;
 
@@ -66,10 +68,33 @@ public class ListOfOfficersControllerTest {
     }
 
     @Test
+    @DisplayName("Post to confirmation page - error returning eac request")
+    void postRequestErrorReturningEacRequest() throws Exception {
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - error updating eac request")
+    void postRequestErrorUpdatingEacRequest() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+        when(emergencyAuthCodeService.updateEACRequest(any(), any())).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
     @DisplayName("Post to confirmation page - successful")
     void postRequestSuccessful() throws Exception {
-        when(navigatorService.getNextControllerRedirect(any(), any()))
-                .thenReturn(MOCK_CONTROLLER_PATH);
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+        when(navigatorService.getNextControllerRedirect(any(), any())).thenReturn(MOCK_CONTROLLER_PATH);
 
         this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH))
                 .andExpect(status().is3xxRedirection())
