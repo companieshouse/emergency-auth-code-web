@@ -16,28 +16,21 @@ public class WebSecurity {
 
     @Configuration
     @Order(1)
-    public static class AuthCodeHomePageSecurityConfig extends WebSecurityConfigurerAdapter {
+    public static class AuthCodeSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .antMatcher("/auth-code-requests/start");
+            http.requestMatchers()
+                    .antMatchers("/auth-code-requests/start", "/auth-code-requests/accessibility-statement")
+                    .and()
+                    .addFilterBefore(new SessionHandler(), BasicAuthenticationFilter.class)
+                    .addFilterBefore(new HijackFilter(), BasicAuthenticationFilter.class);
         }
     }
+
 
     @Configuration
     @Order(2)
-    public static class AccessibilityStatementPageSecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .antMatcher("/auth-code-requests/accessibility-statement");
-        }
-    }
-
-    @Configuration
-    @Order(3)
     public static class EACWebSecurityFilterConfig extends WebSecurityConfigurerAdapter {
 
         @Override
