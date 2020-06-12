@@ -9,7 +9,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 @RequestMapping("/auth-code-requests/accessibility-statement")
 public class AccessibilityStatementController extends BaseController {
 
-    private static String EAC_ACCESSIBILITY = "eac/accessibilityStatement";
+    private static final String EAC_ACCESSIBILITY = "eac/accessibilityStatement";
 
     @Override protected String getTemplateName() {
         return EAC_ACCESSIBILITY;
