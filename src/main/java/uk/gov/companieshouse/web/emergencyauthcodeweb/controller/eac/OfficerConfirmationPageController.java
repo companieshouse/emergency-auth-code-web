@@ -16,6 +16,9 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.re
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Controller
 @PreviousController(ListOfOfficersController.class)
@@ -47,6 +50,9 @@ public class OfficerConfirmationPageController extends BaseController {
             addBackPageAttributeToModel(model, requestId);
 
             model.addAttribute("eacOfficer", eacOfficer);
+            model.addAttribute("eacRequest", eacRequest);
+            model.addAttribute("eacOfficerDOBMonth", Month.of(Integer.parseInt(eacOfficer.getDateOfBirth().getMonth())));
+            model.addAttribute("eacOfficerAppointment", DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH).format(eacOfficer.getAppointedOn()));
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
             return ERROR_VIEW;

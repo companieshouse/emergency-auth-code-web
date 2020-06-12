@@ -25,54 +25,42 @@
                         <dt class="govuk-summary-list__key">
                             Role
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            Director
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficer.officerRole}" th:text="${eacOfficer.officerRole}"></dd>
                     </div>
 
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Date of birth
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            December 1952
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficerDOBMonth} + ' ' + ${eacOfficer.dateOfBirth.year}" th:text="${eacOfficerDOBMonth} + ' ' + ${eacOfficer.dateOfBirth.year}"></dd>
                     </div>
 
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Appointed on
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            13 May 2015
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficerAppointment}" th:text="${eacOfficerAppointment}"></dd>
                     </div>
 
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Nationality
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            British
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficer.nationality}" th:text="${eacOfficer.nationality}"></dd>
                     </div>
 
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Country of residence
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            United Kingdom
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficer.countryOfResidence}" th:text="${eacOfficer.countryOfResidence}"></dd>
                     </div>
 
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Occupation
                         </dt>
-                        <dd class="govuk-summary-list__value">
-                            Chartered Accountant
-                        </dd>
+                        <dd class="govuk-summary-list__value" th:id="${eacOfficer.occupation}" th:text="${eacOfficer.occupation}"></dd>
                     </div>
                 </dl>
                 <div class="form-group">
@@ -81,8 +69,8 @@
                         <div class="govuk-checkboxes govuk-checkboxes--small">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                                <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                                    I confirm that I want the authentication code sent to the most recent home address given to Companies House for Joe Root Bloggs
+                                <label class="govuk-label govuk-checkboxes__label" for="organisation"
+                                       th:text="'I confirm that I want the authentication code sent to the most recent home address given to Companies House for ' + ${eacRequest.officerName}">
                                 </label>
                             </div>
                         </div>

@@ -79,6 +79,7 @@ public class ListOfOfficersController extends BaseController {
             emergencyAuthCodeService.updateEACRequest(requestId, eacRequest);
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
         }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
