@@ -115,9 +115,9 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
             return internalApiClient.privateEacResourceHandler()
                     .updateAuthCode(uri, privateEACRequestApi).execute().getData();
         } catch (ApiErrorResponseException ex) {
-            throw new ServiceException("Error creating emergency auth code request", ex);
+            throw new ServiceException("Error updating emergency auth code request", ex);
         } catch (URIValidationException ex) {
-            throw new ServiceException("Invalid URI for emergency auth code request", ex);
+            throw new ServiceException("Invalid URI for updating emergency auth code request", ex);
         }
     }
 }

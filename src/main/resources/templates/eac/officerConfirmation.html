@@ -9,9 +9,10 @@
 </head>
 <div id="officer-confirm-main-content"  layout:fragment="content">
 
-    <form th:action="@{''}" method="post" class="form" id="officer-confirmation">
+    <form th:action="@{''}" th:object="${officerConfirmation}" method="post" class="form" id="officer-confirmation">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
+                <div th:replace="fragments/globalErrors :: globalErrors"></div>
                 <h1 class="govuk-heading-l">Confirm this is the correct director</h1>
                 <dl class="govuk-summary-list">
                     <div class="govuk-summary-list__row">
@@ -63,21 +64,41 @@
                         <dd class="govuk-summary-list__value" th:id="${eacOfficer.occupation}" th:text="${eacOfficer.occupation}"></dd>
                     </div>
                 </dl>
-                <div class="form-group">
+                <div class="form-group" th:classappend="${#fields.hasErrors('confirm')} ? 'govuk-form-group--error' : ''">
                     <fieldset class="govuk-fieldset">
                         <legend class="govuk-fieldset__legend govuk-visually-hidden">I confirm that I want the authentication code sent to the most recent home address given to Companies House</legend>
                         <div class="govuk-checkboxes govuk-checkboxes--small">
+                            <span class="govuk-error-message"
+                                  id="id-errorId"
+                                  th:if="${#fields.hasErrors('confirm')}"
+                                  th:each="e : ${#fields.errors('confirm')}" th:text="${e}" >
+                            </span>
                             <div class="govuk-checkboxes__item">
-                                <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                                <label class="govuk-label govuk-checkboxes__label" for="organisation"
+                                <input class="govuk-checkboxes__input"
+                                       id="checkConfirmOfficer"
+                                       name="checkConfirmOfficer"
+                                       type="checkbox"
+                                       th:field="*{confirm}"
+                                       th:errorclass="govuk-error-message">
+                                <label class="govuk-label govuk-checkboxes__label" for="checkConfirmOfficer" id="checkConfirmOfficer-label"
                                        th:text="'I confirm that I want the authentication code sent to the most recent home address given to Companies House for ' + ${eacRequest.officerName}">
                                 </label>
                             </div>
                         </div>
                     </fieldset>
-                    <p></p>
-                    <input id="next-button" class="govuk-button" type="submit" role="button" value="Confirm and submit"/>
                 </div>
+                <p></p>
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary">
+                            <span class="govuk-details__summary-text">
+                              Why can I not see the home address?
+                            </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        We do not make details of an officer's home address publicly available for security reasons. <br><br>We will post the authentication code to the most recent home address that the officer has given us.
+                    </div>
+                </details>
+                <input id="next-button" class="govuk-button" type="submit" role="button" value="Confirm and submit"/>
             </div>
         </div>
     </form>

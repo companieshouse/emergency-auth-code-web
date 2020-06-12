@@ -3,7 +3,9 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.form.OfficerConfirmation;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.validation.Valid;
 
 @Controller
 @PreviousController(ListOfOfficersController.class)
@@ -26,6 +30,7 @@ import java.util.Locale;
 @RequestMapping("/auth-code-requests/requests/{requestId}/confirm-officer")
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
+    private static final String OFFICER_CONFIRMATION_MODEL_ATTR = "officerConfirmation";
 
     @Autowired
     private EmergencyAuthCodeService emergencyAuthCodeService;
@@ -36,7 +41,9 @@ public class OfficerConfirmationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getOfficerConfirmation(@PathVariable String requestId, Model model, HttpServletRequest request) {
+    public String getOfficerConfirmation(@PathVariable String requestId,
+                                         Model model,
+                                         HttpServletRequest request) {
 
         try {
             // Retrieve details for the selected officer from the API
@@ -46,6 +53,10 @@ public class OfficerConfirmationPageController extends BaseController {
                 return ERROR_VIEW;
             }
             EACOfficer eacOfficer = emergencyAuthCodeService.getOfficer(eacRequest.getCompanyNumber(), eacRequest.getOfficerId());
+
+            if (!model.containsAttribute(OFFICER_CONFIRMATION_MODEL_ATTR)) {
+                model.addAttribute(OFFICER_CONFIRMATION_MODEL_ATTR, new OfficerConfirmation());
+            }
 
             addBackPageAttributeToModel(model, requestId);
 
@@ -62,7 +73,16 @@ public class OfficerConfirmationPageController extends BaseController {
 
 
     @PostMapping
-    public String postOfficerConfirmation(@PathVariable String requestId) {
+    public String postOfficerConfirmation(@PathVariable String requestId,
+            @ModelAttribute @Valid OfficerConfirmation officerConfirmation,
+            BindingResult bindingResult,
+            Model model,
+            HttpServletRequest request) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute(OFFICER_CONFIRMATION_MODEL_ATTR, officerConfirmation);
+            return getOfficerConfirmation(requestId, model, request);
+        }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
