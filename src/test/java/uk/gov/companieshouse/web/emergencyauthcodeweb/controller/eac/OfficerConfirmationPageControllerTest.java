@@ -133,7 +133,7 @@ public class OfficerConfirmationPageControllerTest {
 
     @Test
     @DisplayName("Post to confirmation page - unsuccessful - ServiceException thrown by Service")
-    void postRequestUnuccessful_ServiceException() throws Exception {
+    void postRequestUnsuccessful_ServiceException() throws Exception {
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
 
         this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
