@@ -9,21 +9,27 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.api.InternalApiClient;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
 import uk.gov.companieshouse.api.handler.emergencyauthcode.PrivateEACResourceHandler;
+import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACOfficerGet;
 import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACOfficerList;
 import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACRequestCreate;
 import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACRequestGet;
+import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACRequestUpdate;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
 import uk.gov.companieshouse.api.model.ApiResponse;
 import uk.gov.companieshouse.api.model.emergencyauthcode.authcoderequest.PrivateEACRequestApi;
+import uk.gov.companieshouse.api.model.emergencyauthcode.officer.PrivateEACOfficerApi;
 import uk.gov.companieshouse.api.model.emergencyauthcode.officer.PrivateEACOfficersListApi;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.api.ApiClientService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficerList;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.officer.EACOfficerListTransformer;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.officer.EACOfficerTransformer;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request.EACRequestTransformer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -37,11 +43,16 @@ public class EmergencyAuthCodeServiceImplTest {
     private static final String COMPANY_NUMBER = "12345678";
     private static final String LIST_OFFICERS_URI = "/emergency-auth-code-service/company/" + COMPANY_NUMBER + "/officers";
 
+    private static final String OFFICER_ID = "87654321";
+    private static final String GET_OFFICER_URI = LIST_OFFICERS_URI + "/" + OFFICER_ID;
+
     private EACRequest eacRequest = new EACRequest();
     private PrivateEACRequestApi eacRequestApi = new PrivateEACRequestApi();
 
     private EACOfficerList eacOfficerList = new EACOfficerList();
     private PrivateEACOfficersListApi eacOfficersListApi = new PrivateEACOfficersListApi();
+    private EACOfficer eacOfficer = new EACOfficer();
+    private PrivateEACOfficerApi eacOfficerApi = new PrivateEACOfficerApi();
 
     @Mock
     private InternalApiClient internalApiClient;
@@ -62,7 +73,19 @@ public class EmergencyAuthCodeServiceImplTest {
     private PrivateEACOfficerList privateEACOfficerList;
 
     @Mock
+    private PrivateEACOfficerGet privateEACOfficerGet;
+
+    @Mock
+    private PrivateEACRequestUpdate privateEACRequestUpdate;
+
+    @Mock
     private ApiResponse<PrivateEACOfficersListApi> eacOfficersListApiResponse;
+
+    @Mock
+    private ApiResponse<PrivateEACOfficerApi> eacOfficerApiResponse;
+
+    @Mock
+    private ApiResponse<Void> eacUpdateRequestApiResponse;
 
     @Mock
     private ApiClientService apiClientService;
@@ -72,6 +95,9 @@ public class EmergencyAuthCodeServiceImplTest {
 
     @Mock
     private EACOfficerListTransformer eacOfficerListTransformer;
+
+    @Mock
+    private EACOfficerTransformer eacOfficerTransformer;
 
     @InjectMocks
     private EmergencyAuthCodeServiceImpl eacService;
@@ -162,6 +188,45 @@ public class EmergencyAuthCodeServiceImplTest {
     }
 
     @Test
+    @DisplayName("Test get request for single officer is successful")
+    void testGetOfficer_Successful()
+            throws ApiErrorResponseException, URIValidationException, ServiceException {
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler.getOfficer(GET_OFFICER_URI)).thenReturn(privateEACOfficerGet);
+        when(privateEACOfficerGet.execute()).thenReturn(eacOfficerApiResponse);
+        when(eacOfficerApiResponse.getData()).thenReturn(eacOfficerApi);
+        when(eacOfficerTransformer.apiToClient(eacOfficerApi)).thenReturn(eacOfficer);
+
+        EACOfficer result = eacService.getOfficer(COMPANY_NUMBER, OFFICER_ID);
+        assertEquals(eacOfficer, result);
+    }
+
+    @Test
+    @DisplayName("Test get request for single officer is unsuccessful - ApiErrorResponseException")
+    void testGetOfficer_Unsuccessful_ApiErrorResponseException()
+            throws ApiErrorResponseException, URIValidationException {
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler.getOfficer(GET_OFFICER_URI)).thenReturn(privateEACOfficerGet);
+        when(privateEACOfficerGet.execute()).thenThrow(ApiErrorResponseException.class);
+
+        assertThrows(ServiceException.class, () -> eacService.getOfficer(COMPANY_NUMBER, OFFICER_ID));
+    }
+
+    @Test
+    @DisplayName("Test get request for list of officers is unsuccessful - URIValidationException")
+    void testGetOfficer_Unsuccessful_URIValidationException()
+            throws ApiErrorResponseException, URIValidationException {
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler.getOfficer(GET_OFFICER_URI)).thenReturn(privateEACOfficerGet);
+        when(privateEACOfficerGet.execute()).thenThrow(URIValidationException.class);
+
+        assertThrows(ServiceException.class, () -> eacService.getOfficer(COMPANY_NUMBER, OFFICER_ID));
+    }
+
+    @Test
     @DisplayName("Test get request for an emergency auth code request is successful")
     void testGetEACRequest_Successful()
             throws ApiErrorResponseException, URIValidationException, ServiceException {
@@ -198,5 +263,52 @@ public class EmergencyAuthCodeServiceImplTest {
         when(privateEACRequestGet.execute()).thenThrow(URIValidationException.class);
 
         assertThrows(ServiceException.class, () -> eacService.getEACRequest(EAC_REQUEST_ID));
+    }
+
+    @Test
+    @DisplayName("Test update existing emergency auth code request is successful")
+    void testEACUpdateRequest_Successful()
+            throws ApiErrorResponseException, URIValidationException, ServiceException {
+        when(eacRequestTransformer.clientToApi(eacRequest)).thenReturn(eacRequestApi);
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler
+                .updateAuthCode(GET_EMERGENCY_AUTH_CODE_REQUEST_URI, eacRequestApi))
+                .thenReturn(privateEACRequestUpdate);
+        when(privateEACRequestUpdate.execute()).thenReturn(eacUpdateRequestApiResponse);
+        when(eacUpdateRequestApiResponse.getData()).thenReturn(null);
+
+        Void result = eacService.updateEACRequest(EAC_REQUEST_ID, eacRequest);
+        assertNull(result);
+    }
+
+    @Test
+    @DisplayName("Test update existing emergency auth code request is unsuccessful - ApiErrorResponseException")
+    void testEACUpdateRequest_Unsuccessful_ApiErrorResponseException()
+            throws ApiErrorResponseException, URIValidationException {
+        when(eacRequestTransformer.clientToApi(eacRequest)).thenReturn(eacRequestApi);
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler
+                .updateAuthCode(GET_EMERGENCY_AUTH_CODE_REQUEST_URI, eacRequestApi))
+                .thenReturn(privateEACRequestUpdate);
+        when(privateEACRequestUpdate.execute()).thenThrow(ApiErrorResponseException.class);
+
+        assertThrows(ServiceException.class, () -> eacService.updateEACRequest(EAC_REQUEST_ID, eacRequest));
+    }
+
+    @Test
+    @DisplayName("Test update existing emergency auth code request is unsuccessful - URIValidationException")
+    void testEACUpdateRequest_Unsuccessful_URIValidationException()
+            throws ApiErrorResponseException, URIValidationException {
+        when(eacRequestTransformer.clientToApi(eacRequest)).thenReturn(eacRequestApi);
+        when(apiClientService.getInternalApiClient()).thenReturn(internalApiClient);
+        when(internalApiClient.privateEacResourceHandler()).thenReturn(privateEACResourceHandler);
+        when(privateEACResourceHandler
+                .updateAuthCode(GET_EMERGENCY_AUTH_CODE_REQUEST_URI, eacRequestApi))
+                .thenReturn(privateEACRequestUpdate);
+        when(privateEACRequestUpdate.execute()).thenThrow(URIValidationException.class);
+
+        assertThrows(ServiceException.class, () -> eacService.updateEACRequest(EAC_REQUEST_ID, eacRequest));
     }
 }

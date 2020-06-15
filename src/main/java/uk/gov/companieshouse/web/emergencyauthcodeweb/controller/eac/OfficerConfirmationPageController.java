@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,8 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.NextController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.annotation.PreviousController;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.controller.BaseController;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.form.OfficerConfirmation;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.validation.Valid;
 
 @Controller
@@ -21,6 +30,10 @@ import javax.validation.Valid;
 @RequestMapping("/auth-code-requests/requests/{requestId}/confirm-officer")
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
+    private static final String OFFICER_CONFIRMATION_MODEL_ATTR = "officerConfirmation";
+
+    @Autowired
+    private EmergencyAuthCodeService emergencyAuthCodeService;
 
     @Override
     protected String getTemplateName() {
@@ -28,12 +41,33 @@ public class OfficerConfirmationPageController extends BaseController {
     }
 
     @GetMapping
-    public String getOfficerConfirmation(@PathVariable String requestId, Model model) {
+    public String getOfficerConfirmation(@PathVariable String requestId,
+                                         Model model,
+                                         HttpServletRequest request) {
 
-        model.addAttribute("officerConfirmation", new OfficerConfirmation());
+        try {
+            // Retrieve details for the selected officer from the API
+            EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+            if (eacRequest.getStatus().equals("submitted")) {
+                LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
+                return ERROR_VIEW;
+            }
+            EACOfficer eacOfficer = emergencyAuthCodeService.getOfficer(eacRequest.getCompanyNumber(), eacRequest.getOfficerId());
 
-        addBackPageAttributeToModel(model, requestId);
+            if (!model.containsAttribute(OFFICER_CONFIRMATION_MODEL_ATTR)) {
+                model.addAttribute(OFFICER_CONFIRMATION_MODEL_ATTR, new OfficerConfirmation());
+            }
 
+            addBackPageAttributeToModel(model, requestId);
+
+            model.addAttribute("eacOfficer", eacOfficer);
+            model.addAttribute("eacRequest", eacRequest);
+            model.addAttribute("eacOfficerDOBMonth", Month.of(Integer.parseInt(eacOfficer.getDateOfBirth().getMonth())));
+            model.addAttribute("eacOfficerAppointment", DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH).format(eacOfficer.getAppointedOn()));
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
+        }
         return getTemplateName();
     }
 
@@ -41,10 +75,13 @@ public class OfficerConfirmationPageController extends BaseController {
     @PostMapping
     public String postOfficerConfirmation(@PathVariable String requestId,
             @ModelAttribute @Valid OfficerConfirmation officerConfirmation,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Model model,
+            HttpServletRequest request) {
 
         if(bindingResult.hasErrors()) {
-            return getTemplateName();
+            model.addAttribute(OFFICER_CONFIRMATION_MODEL_ATTR, officerConfirmation);
+            return getOfficerConfirmation(requestId, model, request);
         }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);

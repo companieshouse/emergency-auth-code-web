@@ -9,19 +9,23 @@ import uk.gov.companieshouse.api.error.ApiErrorResponseException;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
 import uk.gov.companieshouse.api.model.ApiResponse;
 import uk.gov.companieshouse.api.model.emergencyauthcode.authcoderequest.PrivateEACRequestApi;
+import uk.gov.companieshouse.api.model.emergencyauthcode.officer.PrivateEACOfficerApi;
 import uk.gov.companieshouse.api.model.emergencyauthcode.officer.PrivateEACOfficersListApi;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.api.ApiClientService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.exception.ServiceException;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficer;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.officer.EACOfficerList;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.officer.EACOfficerListTransformer;
+import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.officer.EACOfficerTransformer;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request.EACRequestTransformer;
 
 @Service
 public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
 
     private static final UriTemplate GET_OFFICERS_URI = new UriTemplate("/emergency-auth-code-service/company/{companyNumber}/officers");
+    private static final UriTemplate GET_OFFICER_URI = new UriTemplate("/emergency-auth-code-service/company/{companyNumber}/officers/{officerId}");
     private static final UriTemplate EMERGENCY_AUTH_CODE_REQUEST_URI = new UriTemplate("/emergency-auth-code-service/auth-code-requests");
     private static final UriTemplate GET_EMERGENCY_AUTH_CODE_REQUEST_URI = new UriTemplate("/emergency-auth-code-service/auth-code-requests/{requestId}");
 
@@ -33,6 +37,9 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
 
     @Autowired
     private EACOfficerListTransformer eacOfficerListTransformer;
+
+    @Autowired
+    private EACOfficerTransformer eacOfficerTransformer;
 
     public EACRequest createAuthCodeRequest(EACRequest eacRequest) throws ServiceException {
         PrivateEACRequestApi privateEACRequestApi = eacRequestTransformer.clientToApi(eacRequest);
@@ -69,6 +76,21 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
         }
     }
 
+    public EACOfficer getOfficer(String companyNumber, String officerId) throws ServiceException {
+        InternalApiClient internalApiClient = apiClientService.getInternalApiClient();
+        ApiResponse<PrivateEACOfficerApi> apiResponse;
+
+        try {
+            String uri = GET_OFFICER_URI.expand(companyNumber, officerId).toString();
+            apiResponse = internalApiClient.privateEacResourceHandler().getOfficer(uri).execute();
+            return eacOfficerTransformer.apiToClient(apiResponse.getData());
+        } catch (ApiErrorResponseException ex) {
+            throw new ServiceException("Error retrieving selected officer for company", ex);
+        } catch (URIValidationException ex) {
+            throw new ServiceException("Invalid URI for retrieving selected officer for company", ex);
+        }
+    }
+
     public EACRequest getEACRequest(String requestId) throws ServiceException {
         InternalApiClient internalApiClient = apiClientService.getInternalApiClient();
         ApiResponse<PrivateEACRequestApi> apiResponse;
@@ -81,6 +103,21 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
             throw new ServiceException("Error retrieving emergency auth code request", ex);
         } catch (URIValidationException ex) {
             throw new ServiceException("Invalid URI for retrieving emergency auth code request", ex);
+        }
+    }
+
+    public Void updateEACRequest(String requestId, EACRequest eacRequest) throws ServiceException {
+        PrivateEACRequestApi privateEACRequestApi = eacRequestTransformer.clientToApi(eacRequest);
+
+        InternalApiClient internalApiClient = apiClientService.getInternalApiClient();
+        try {
+            String uri = GET_EMERGENCY_AUTH_CODE_REQUEST_URI.expand(requestId).toString();
+            return internalApiClient.privateEacResourceHandler()
+                    .updateAuthCode(uri, privateEACRequestApi).execute().getData();
+        } catch (ApiErrorResponseException ex) {
+            throw new ServiceException("Error updating emergency auth code request", ex);
+        } catch (URIValidationException ex) {
+            throw new ServiceException("Invalid URI for updating emergency auth code request", ex);
         }
     }
 }

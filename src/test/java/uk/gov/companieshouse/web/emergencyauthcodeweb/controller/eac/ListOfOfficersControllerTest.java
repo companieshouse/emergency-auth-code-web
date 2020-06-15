@@ -30,10 +30,8 @@ public class ListOfOfficersControllerTest {
     private static final String COMPANY_NUMBER = "12345678";
     private static final String EAC_LIST_OF_OFFICERS_PATH =
             "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
-
     private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfOfficers";
     private static final String ERROR_VIEW = "error";
-
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String TEMPLATE_OFFICER_LIST_MODEL = "eacOfficerList";
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
@@ -95,19 +93,6 @@ public class ListOfOfficersControllerTest {
     }
 
     @Test
-    @DisplayName("Post to confirmation page - successful")
-    void postRequestSuccessful() throws Exception {
-        when(navigatorService.getNextControllerRedirect(any(), any()))
-                .thenReturn(MOCK_CONTROLLER_PATH);
-
-        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
-                .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(MOCK_CONTROLLER_PATH))
-                .andExpect(model().attributeErrorCount(TEMPLATE_INDIVIDUAL_OFFICER_MODEL, 0));
-    }
-
-    @Test
     @DisplayName("Post to confirmation page - unsuccessful - null officer id from user not selecting radio button")
     void postRequestUnsuccessful_NullOfficerId() throws Exception {
         String officerId = null;
@@ -150,5 +135,43 @@ public class ListOfOfficersControllerTest {
                 .param(OFFICER_ID_PARAM, officerId))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - error returning eac request")
+    void postRequestErrorReturningEacRequest() throws Exception {
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
+                .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - error updating eac request")
+    void postRequestErrorUpdatingEacRequest() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+        when(emergencyAuthCodeService.updateEACRequest(any(), any())).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
+                .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - successful")
+    void postRequestSuccessful() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+        when(navigatorService.getNextControllerRedirect(any(), any())).thenReturn(MOCK_CONTROLLER_PATH);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
+                .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(MOCK_CONTROLLER_PATH))
+                .andExpect(model().attributeErrorCount(TEMPLATE_INDIVIDUAL_OFFICER_MODEL, 0));
     }
 }

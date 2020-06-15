@@ -58,9 +58,13 @@ public class ListOfOfficersController extends BaseController {
 
 
     @PostMapping
-    public String postListOfDirectors(@PathVariable String requestId,
-            @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer, BindingResult bindingResult,
-            HttpServletRequest request, Model model) {
+    public String postListOfOfficers(@PathVariable String requestId,
+                                     @ModelAttribute("eacOfficer") @Valid EACOfficer eacOfficer,
+                                     BindingResult bindingResult,
+                                     HttpServletRequest request,
+                                     Model model) {
+
+        // If an officer is not selected, reload page and show error
         if(bindingResult.hasErrors()) {
             try {
                 EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
@@ -75,6 +79,27 @@ public class ListOfOfficersController extends BaseController {
             }
 
             return getTemplateName();
+        }
+
+        // Retrieve company number from API for later request
+        String companyNumber;
+        try {
+            companyNumber = emergencyAuthCodeService.getEACRequest(requestId).getCompanyNumber();
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
+        }
+
+        EACRequest eacRequest = new EACRequest();
+        eacRequest.setOfficerId(eacOfficer.getId());
+        eacRequest.setCompanyNumber(companyNumber);
+
+        // Update API with selected officer
+        try {
+            emergencyAuthCodeService.updateEACRequest(requestId, eacRequest);
+        } catch (ServiceException ex) {
+            LOGGER.errorRequest(request, ex.getMessage(), ex);
+            return ERROR_VIEW;
         }
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
