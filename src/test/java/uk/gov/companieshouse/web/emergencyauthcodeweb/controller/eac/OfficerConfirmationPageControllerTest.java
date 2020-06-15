@@ -117,6 +117,11 @@ public class OfficerConfirmationPageControllerTest {
     @Test
     @DisplayName("Post to confirmation page - successful")
     void postRequestSuccessful() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        eacRequest.setOfficerId(OFFICER_ID);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+
+
         when(navigatorService.getNextControllerRedirect(any(), any()))
                 .thenReturn(MOCK_CONTROLLER_PATH);
 
@@ -124,6 +129,17 @@ public class OfficerConfirmationPageControllerTest {
                     .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name(MOCK_CONTROLLER_PATH));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - unsuccessful - ServiceException thrown by Service")
+    void postRequestUnuccessful_ServiceException() throws Exception {
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
+                .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ERROR));
     }
 
     @Test

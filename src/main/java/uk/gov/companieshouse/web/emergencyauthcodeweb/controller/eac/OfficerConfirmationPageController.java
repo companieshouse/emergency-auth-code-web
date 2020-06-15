@@ -19,10 +19,10 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.re
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import javax.validation.Valid;
 
 @Controller
 @PreviousController(ListOfOfficersController.class)
@@ -31,6 +31,8 @@ import javax.validation.Valid;
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
     private static final String OFFICER_CONFIRMATION_MODEL_ATTR = "officerConfirmation";
+
+    private static final String SUBMITTED_STATUS = "submitted";
 
     @Autowired
     private EmergencyAuthCodeService emergencyAuthCodeService;
@@ -48,7 +50,7 @@ public class OfficerConfirmationPageController extends BaseController {
         try {
             // Retrieve details for the selected officer from the API
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
-            if (eacRequest.getStatus().equals("submitted")) {
+            if (eacRequest.getStatus().equals(SUBMITTED_STATUS)) {
                 LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
                 return ERROR_VIEW;
             }
@@ -83,6 +85,24 @@ public class OfficerConfirmationPageController extends BaseController {
             model.addAttribute(OFFICER_CONFIRMATION_MODEL_ATTR, officerConfirmation);
             return getOfficerConfirmation(requestId, model, request);
         }
+
+        try {
+            EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+
+            String companyNumber = eacRequest.getCompanyNumber();
+            String officerId = eacRequest.getOfficerId();
+
+            EACRequest updatedRequest = new EACRequest();
+            updatedRequest.setCompanyNumber(companyNumber);
+            updatedRequest.setOfficerId(officerId);
+            updatedRequest.setStatus(SUBMITTED_STATUS);
+
+            emergencyAuthCodeService.updateEACRequest(requestId, updatedRequest);
+        } catch (ServiceException e) {
+            LOGGER.errorRequest(request, e.getMessage(), e);
+            return ERROR_VIEW;
+        }
+
 
         return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
     }
