@@ -29,6 +29,7 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthc
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.request.EACRequestTransformer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -278,7 +279,7 @@ public class EmergencyAuthCodeServiceImplTest {
         when(eacUpdateRequestApiResponse.getData()).thenReturn(null);
 
         Void result = eacService.updateEACRequest(EAC_REQUEST_ID, eacRequest);
-        assertEquals(null, result);
+        assertNull(result);
     }
 
     @Test
