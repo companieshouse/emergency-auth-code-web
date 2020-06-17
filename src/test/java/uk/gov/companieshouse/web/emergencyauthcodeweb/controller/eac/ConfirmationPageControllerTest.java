@@ -53,6 +53,7 @@ public class ConfirmationPageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(EAC_CONFIRMATION_VIEW))
                 .andExpect(model().attributeExists("submittedAt"))
+                .andExpect(model().attributeExists("submittedMonth"))
                 .andExpect(model().attributeExists("submittedTime"));
     }
 
