@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +50,8 @@ public class ConfirmationPageController extends BaseController {
 
             String submittedTime = uk.toLocalTime().format(dtf);
             model.addAttribute("submittedAt", submittedAt);
-            model.addAttribute("submittedMonth", WordUtils.capitalize(submittedAt.getMonth().name().toLowerCase()));
+            model.addAttribute("submittedMonth",
+                    StringUtils.capitalize(submittedAt.getMonth().name().toLowerCase()));
             model.addAttribute("submittedTime", submittedTime.toLowerCase());
         } catch (ServiceException e) {
             LOGGER.errorRequest(request, e.getMessage(), e);
