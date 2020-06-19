@@ -55,6 +55,9 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
                 return null;
             }
+            if (ex.getStatusCode() == HttpStatus.FORBIDDEN.value()) {
+                return null;
+            }
             throw new ServiceException("Error creating emergency auth code request", ex);
         } catch (URIValidationException ex) {
             throw new ServiceException("Invalid URI for emergency auth code request", ex);
