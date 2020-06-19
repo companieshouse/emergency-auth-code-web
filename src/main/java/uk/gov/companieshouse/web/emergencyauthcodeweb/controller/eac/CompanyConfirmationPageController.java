@@ -85,7 +85,6 @@ public class CompanyConfirmationPageController extends BaseController {
             }
 
             returnedRequest = emergencyAuthCodeService.createAuthCodeRequest(eacRequest);
-            // If the response from creating the AuthCodeRequest is null the company had no eligible officers
             if (returnedRequest == null) {
                 return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
             }
