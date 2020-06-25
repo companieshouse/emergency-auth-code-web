@@ -16,7 +16,7 @@
                 <div class="form-group" th:classappend="${#fields.hasErrors('id')} ? 'govuk-form-group--error' : ''">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading">
-                            Which director needs the authentication code?
+                            Which officer needs the authentication code?
                         </h1>
                     </legend>
                     <span class="govuk-error-message"
@@ -25,10 +25,10 @@
                           th:each="e : ${#fields.errors('id')}" th:text="${e}" >
                     </span>
                     <span id="list-of-officers-hint" class="govuk-hint">
-                        You should only select a director if you know they have given us their most recent home address.
+                        You should only select an officer if you know they have given us their most recent home address.
                     </span>
                     <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-visually-hidden">Which director needs the authentication code?</legend>
+                        <legend class="govuk-fieldset__legend govuk-visually-hidden">Which officer needs the authentication code?</legend>
                         <div class="govuk-radios">
 
                             <div th:each="officer : ${eacOfficerList.items}" class="govuk-radios__item">
@@ -55,8 +55,8 @@
                             </span>
                     </summary>
                     <div class="govuk-details__text">
-                        We do not make details of a director's home address publicly available for security reasons. <br><br>We will post the
-                        authentication code to the most recent home address that the director has given us.
+                        We do not make details of an officers's home address publicly available for security reasons. <br><br>We will post the
+                        authentication code to the most recent home address that the officer has given us.
                     </div>
                 </details>
                 <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
