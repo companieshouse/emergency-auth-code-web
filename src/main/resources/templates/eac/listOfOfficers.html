@@ -13,7 +13,7 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <div th:replace="fragments/globalErrors :: globalErrors"></div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('id')} ? 'govuk-form-group--error' : ''">
+                <div class="govuk-form-group" th:classappend="${#fields.hasErrors('id')} ? 'govuk-form-group--error' : ''">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading">
                             Which officer needs the authentication code?
@@ -43,22 +43,9 @@
                                        id="list-of-officers-label">
                                 </label>
                             </div>
-
                         </div>
                     </fieldset>
                 </div>
-                <p></p>
-                <details class="govuk-details" data-module="govuk-details">
-                    <summary class="govuk-details__summary">
-                            <span class="govuk-details__summary-text">
-                              Why can I not see the home address?
-                            </span>
-                    </summary>
-                    <div class="govuk-details__text">
-                        We do not make details of an officers's home address publicly available for security reasons. <br><br>We will post the
-                        authentication code to the most recent home address that the officer has given us.
-                    </div>
-                </details>
                 <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
             </div>
         </div>
