@@ -49,6 +49,7 @@ public class ListOfOfficersController extends BaseController {
 
         try {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+            page -= 1;
             EACOfficerList eacOfficerList = emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), page);
             int totalPages = (int) Math.ceil((double) eacOfficerList.getTotalResults() / (double) eacOfficerList.getItemsPerPage());
 

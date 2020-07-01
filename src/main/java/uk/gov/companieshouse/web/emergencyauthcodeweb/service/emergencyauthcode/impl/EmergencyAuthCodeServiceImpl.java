@@ -66,8 +66,6 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
     }
 
     public EACOfficerList getListOfOfficers(String companyNumber, int page) throws ServiceException {
-        page -= 1;
-
         InternalApiClient internalApiClient = apiClientService.getInternalApiClient();
         ApiResponse<PrivateEACOfficersListApi> apiResponse;
 
