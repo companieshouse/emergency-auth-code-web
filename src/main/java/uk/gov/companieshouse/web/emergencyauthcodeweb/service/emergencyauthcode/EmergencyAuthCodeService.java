@@ -9,7 +9,7 @@ public interface EmergencyAuthCodeService {
     EACRequest createAuthCodeRequest(EACRequest eacRequest) throws
             ServiceException;
 
-    EACOfficerList getListOfOfficers(String companyNumber) throws ServiceException;
+    EACOfficerList getListOfOfficers(String companyNumber, int page) throws ServiceException;
 
     EACOfficer getOfficer(String companyNumber, String officerId) throws ServiceException;
 

@@ -40,6 +40,7 @@ public class EmergencyAuthCodeServiceImplTest {
     private static final String EMERGENCY_AUTH_CODE_REQUEST_URI = "/emergency-auth-code-service/auth-code-requests";
     private static final String GET_EMERGENCY_AUTH_CODE_REQUEST_URI = EMERGENCY_AUTH_CODE_REQUEST_URI + "/" + EAC_REQUEST_ID;
 
+    private static final int PAGE = 1;
     private static final String COMPANY_NUMBER = "12345678";
     private static final String LIST_OFFICERS_URI = "/emergency-auth-code-service/company/" + COMPANY_NUMBER + "/officers";
 
@@ -159,7 +160,7 @@ public class EmergencyAuthCodeServiceImplTest {
         when(eacOfficersListApiResponse.getData()).thenReturn(eacOfficersListApi);
         when(eacOfficerListTransformer.apiToClient(eacOfficersListApi)).thenReturn(eacOfficerList);
 
-        EACOfficerList result = eacService.getListOfOfficers(COMPANY_NUMBER);
+        EACOfficerList result = eacService.getListOfOfficers(COMPANY_NUMBER, PAGE);
         assertEquals(eacOfficerList, result);
     }
 
@@ -172,7 +173,7 @@ public class EmergencyAuthCodeServiceImplTest {
         when(privateEACResourceHandler.listOfficers(LIST_OFFICERS_URI)).thenReturn(privateEACOfficerList);
         when(privateEACOfficerList.execute()).thenThrow(ApiErrorResponseException.class);
 
-        assertThrows(ServiceException.class, () -> eacService.getListOfOfficers(COMPANY_NUMBER));
+        assertThrows(ServiceException.class, () -> eacService.getListOfOfficers(COMPANY_NUMBER, PAGE));
     }
 
     @Test
@@ -184,7 +185,7 @@ public class EmergencyAuthCodeServiceImplTest {
         when(privateEACResourceHandler.listOfficers(LIST_OFFICERS_URI)).thenReturn(privateEACOfficerList);
         when(privateEACOfficerList.execute()).thenThrow(URIValidationException.class);
 
-        assertThrows(ServiceException.class, () -> eacService.getListOfOfficers(COMPANY_NUMBER));
+        assertThrows(ServiceException.class, () -> eacService.getListOfOfficers(COMPANY_NUMBER, PAGE));
     }
 
     @Test

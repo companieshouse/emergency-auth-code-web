@@ -28,6 +28,7 @@ public class ListOfOfficersControllerTest {
     private static final String OFFICER_ID_PARAM = "id";
     private static final String VALID_OFFICER_ID = "123abc";
     private static final String COMPANY_NUMBER = "12345678";
+    private static final int PAGE = 0;
     private static final String EAC_LIST_OF_OFFICERS_PATH =
             "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
     private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfOfficers";
@@ -35,6 +36,8 @@ public class ListOfOfficersControllerTest {
     private static final String MOCK_CONTROLLER_PATH = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "mockControllerPath";
     private static final String TEMPLATE_OFFICER_LIST_MODEL = "eacOfficerList";
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
+    private static final String TEMPLATE_PAGE_NUMBERS_MODEL = "pageNumbers";
+    private static final String TEMPLATE_CURRENT_PAGE_MODEL = "currentPage";
 
     private MockMvc mockMvc;
 
@@ -60,13 +63,31 @@ public class ListOfOfficersControllerTest {
     void getRequestSuccessful() throws Exception {
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
-        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber())).thenReturn(eacOfficerList);
+        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), PAGE)).thenReturn(eacOfficerList);
 
         this.mockMvc.perform(get(EAC_LIST_OF_OFFICERS_PATH))
                 .andExpect(status().isOk())
                 .andExpect(view().name(EAC_LIST_OF_OFFICERS_VIEW))
                 .andExpect(model().attributeExists(TEMPLATE_OFFICER_LIST_MODEL))
                 .andExpect(model().attributeExists(TEMPLATE_INDIVIDUAL_OFFICER_MODEL));
+    }
+
+    @Test
+    @DisplayName("Get list of officers view - successful - pagination")
+    void getRequestSuccessful_Pagination() throws Exception {
+        eacOfficerList.setItemsPerPage(5);
+        eacOfficerList.setTotalResults(15);
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), PAGE)).thenReturn(eacOfficerList);
+
+        this.mockMvc.perform(get(EAC_LIST_OF_OFFICERS_PATH))
+                .andExpect(status().isOk())
+                .andExpect(view().name(EAC_LIST_OF_OFFICERS_VIEW))
+                .andExpect(model().attributeExists(TEMPLATE_OFFICER_LIST_MODEL))
+                .andExpect(model().attributeExists(TEMPLATE_INDIVIDUAL_OFFICER_MODEL))
+                .andExpect(model().attributeExists(TEMPLATE_PAGE_NUMBERS_MODEL))
+                .andExpect(model().attributeExists(TEMPLATE_CURRENT_PAGE_MODEL));
     }
 
     @Test
@@ -85,7 +106,7 @@ public class ListOfOfficersControllerTest {
     void getRequestUnsuccessful_ServiceException_GetListOfOfficers() throws Exception {
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
-        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber())).thenThrow(ServiceException.class);
+        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), PAGE)).thenThrow(ServiceException.class);
 
         this.mockMvc.perform(get(EAC_LIST_OF_OFFICERS_PATH))
                 .andExpect(status().isOk())
@@ -99,7 +120,7 @@ public class ListOfOfficersControllerTest {
 
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
-        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber())).thenReturn(eacOfficerList);
+        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), PAGE)).thenReturn(eacOfficerList);
 
         this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
                 .param(OFFICER_ID_PARAM, officerId))
@@ -129,7 +150,7 @@ public class ListOfOfficersControllerTest {
 
         eacRequest.setCompanyNumber(COMPANY_NUMBER);
         when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
-        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber())).thenThrow(ServiceException.class);
+        when(emergencyAuthCodeService.getListOfOfficers(eacRequest.getCompanyNumber(), PAGE)).thenThrow(ServiceException.class);
 
         this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
                 .param(OFFICER_ID_PARAM, officerId))
