@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriTemplate;
 import uk.gov.companieshouse.api.InternalApiClient;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
+import uk.gov.companieshouse.api.handler.emergencyauthcode.request.PrivateEACOfficerList;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
 import uk.gov.companieshouse.api.model.ApiResponse;
 import uk.gov.companieshouse.api.model.emergencyauthcode.authcoderequest.PrivateEACRequestApi;
@@ -64,13 +65,17 @@ public class EmergencyAuthCodeServiceImpl implements EmergencyAuthCodeService {
         }
     }
 
-    public EACOfficerList getListOfOfficers(String companyNumber) throws ServiceException {
+    public EACOfficerList getListOfOfficers(String companyNumber, int page) throws ServiceException {
+        page -= 1;
+
         InternalApiClient internalApiClient = apiClientService.getInternalApiClient();
         ApiResponse<PrivateEACOfficersListApi> apiResponse;
 
         try {
             String uri = GET_OFFICERS_URI.expand(companyNumber).toString();
-            apiResponse = internalApiClient.privateEacResourceHandler().listOfficers(uri).execute();
+            PrivateEACOfficerList listRequest = internalApiClient.privateEacResourceHandler().listOfficers(uri);
+            listRequest.addQueryParams("start_index", String.valueOf(page));
+            apiResponse = listRequest.execute();
             return eacOfficerListTransformer.apiToClient(apiResponse.getData());
         } catch (ApiErrorResponseException ex) {
             throw new ServiceException("Error retrieving the list of eligible officers", ex);
