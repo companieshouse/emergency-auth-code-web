@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layouts/baseLayout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/baseLayout}">
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <!--[if lte IE 8]>
@@ -14,7 +14,7 @@
 </head>
 <div id="start-main-content" layout:fragment="content">
 
-    <form th:action="@{''}" method="post" class="form" id="start-page">
+    <form class="form" id="start-page" method="post" th:action="@{''}">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">
@@ -25,6 +25,10 @@
                 <p class="govuk-body-l">Use this service to get a company's authentication code posted to an active officer's home address instead of
                     the registered office.
                 </p>
+
+                <div class="govuk-inset-text">
+                    This interim service has been created in response to the coronavirus (COVID-19) outbreak.
+                </div>
 
                 <p
                         class="govuk-body">To reduce the risk of fraud, we only send authentication codes by post.
@@ -50,15 +54,17 @@
                 <p class="govuk-body">It takes around 5 working days for an officer to receive an authentication code at their home address.</p>
                 <p class="govuk-body">Due to the impact of coronavirus (COVID-19), it may take longer than usual for post to be delivered.</p>
                 <div class="govuk-warning-text">
-                    <span style="top:10%;" class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                    <strong style="margin-left:auto;" class="govuk-warning-text__text">
+                    <span aria-hidden="true" class="govuk-warning-text__icon" style="top:10%;">!</span>
+                    <strong class="govuk-warning-text__text" style="margin-left:auto;">
                         <span class="govuk-warning-text__assistive">Warning</span>
-                        You should only use this service if you know the officer has given us their most recent home address. For security reasons, you cannot see or update the address in this service.
+                        You should only use this service if you know the officer has given us their most recent home address. For security reasons,
+                        you cannot see or update the address in this service.
                     </strong>
                 </div>
 
-                <input id="next-button" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8" type="submit"
-                       role="button" value="Start now" data-event-id="emergency-auth-code - Start now" onclick="_paq.push(['trackGoal', 3]);"/>
+                <input class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+                       data-event-id="emergency-auth-code - Start now" id="next-button"
+                       onclick="_paq.push(['trackGoal', 3]);" role="button" type="submit" value="Start now"/>
             </div>
 
 
@@ -67,9 +73,8 @@
                     <h2 class="govuk-heading-m" id="subsection-title">
                         Guidance
                     </h2>
-                    <nav role="navigation" aria-labelledby="subsection-title">
-                        <ul class="govuk-list
-    govuk-!-font-size-16">
+                    <nav aria-labelledby="subsection-title" role="navigation">
+                        <ul class="govuk-list govuk-!-font-size-16">
                             <li>
                                 <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" target="_blank">
                                     Company authentication codes for online filing
