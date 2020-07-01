@@ -28,7 +28,7 @@ public class ListOfOfficersControllerTest {
     private static final String OFFICER_ID_PARAM = "id";
     private static final String VALID_OFFICER_ID = "123abc";
     private static final String COMPANY_NUMBER = "12345678";
-    private static final int PAGE = 1;
+    private static final int PAGE = 0;
     private static final String EAC_LIST_OF_OFFICERS_PATH =
             "/auth-code-requests/requests/" + REQUEST_ID + "/officers";
     private static final String EAC_LIST_OF_OFFICERS_VIEW = "eac/listOfOfficers";
