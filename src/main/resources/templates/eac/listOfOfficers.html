@@ -46,6 +46,14 @@
                         </div>
                     </fieldset>
                 </div>
+                <div th:if="${pageNumbers}" class="pagination">
+                    <a th:if="${currentPage > 1}" style="font-size: 19px;padding: 8px 16px;" class="govuk-link" th:href="@{''(page=${currentPage - 1})}">Previous</a>
+                    <a style="font-size: 19px;padding: 8px 16px;" th:each="pageNumber: ${pageNumbers}" class="govuk-link" th:href="@{''(page=${pageNumber})}">
+                        <span th:class="${pageNumber == currentPage} ? 'govuk-!-font-weight-bold'" th:text="${pageNumber}"></span>
+                    </a>
+                    <a th:if="${currentPage < pageNumbers.size()}" style="font-size: 19px;padding: 8px 16px;" class="govuk-link" th:href="@{''(page=${currentPage + 1})}">Next</a>
+                </div>
+                <p></p>
                 <input id="next-button" class="govuk-button" type="submit" role="button" value="Continue"/>
             </div>
         </div>
