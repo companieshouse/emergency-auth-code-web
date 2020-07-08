@@ -69,13 +69,12 @@
                         <legend class="govuk-fieldset__legend govuk-visually-hidden">I confirm that I want the authentication code sent to the most recent home address given to Companies House</legend>
                         <div class="govuk-checkboxes govuk-checkboxes--small">
                             <span class="govuk-error-message"
-                                  id="confirm-errorId"
                                   th:if="${#fields.hasErrors('confirm')}"
                                   th:each="e : ${#fields.errors('confirm')}" th:text="${e}" >
                             </span>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input"
-                                       id="checkConfirmOfficer"
+                                       id="confirm-errorId"
                                        name="checkConfirmOfficer"
                                        type="checkbox"
                                        th:field="*{confirm}"

@@ -20,7 +20,6 @@
                         </h1>
                     </legend>
                     <span class="govuk-error-message"
-                          id="id-errorId"
                           th:if="${#fields.hasErrors('id')}"
                           th:each="e : ${#fields.errors('id')}" th:text="${e}" >
                     </span>
@@ -35,7 +34,7 @@
                                 <input class="govuk-radios__input"
                                        name="chooseOfficerRadio"
                                        type="radio"
-                                       th:id="${officer.id}"
+                                       id="id-errorId"
                                        th:value="${officer.id}"
                                        th:field="*{id}"
                                        th:errorclass="govuk-error-message">
