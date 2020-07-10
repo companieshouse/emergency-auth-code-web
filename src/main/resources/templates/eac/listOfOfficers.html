@@ -54,7 +54,7 @@
                                        th:field="*{id}"
                                        th:errorclass="govuk-error-message">
                                 <label class="govuk-label govuk-radios__label" th:for="${officer.id}" th:text="${officer.name}"
-                                       id="list-of-officers-label">
+                                       th:id="'list-of-officers-label-' + ${officer.id}">
                                 </label>
                             </div>
                         </div>
