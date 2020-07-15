@@ -32,7 +32,7 @@
         <div th:replace="fragments/header :: header(headerText = 'Request an authentication code to be sent to a home address',
         headerURL = '/auth-code-requests/start' )"></div>
         <div class="govuk-width-container">
-            <div th:replace="fragments/betaBanner :: betaBanner (surveyLink = 'https://www.research.net/r/request-auth-code-feedback')"></div>
+            <div th:replace="fragments/alphaBanner :: alphaBanner (surveyLink = 'https://www.research.net/r/request-auth-code-feedback')"></div>
             <div th:replace="fragments/backButtonLink :: backButtonLink"></div>
             <main id="content" role="main" class="govuk-main-wrapper">
                 <div layout:fragment="content"></div>
