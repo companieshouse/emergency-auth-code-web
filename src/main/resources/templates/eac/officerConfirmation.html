@@ -67,7 +67,7 @@
                 <div class="form-group" th:classappend="${#fields.hasErrors('confirm')} ? 'govuk-form-group--error' : ''">
                     <fieldset class="govuk-fieldset">
                         <legend class="govuk-fieldset__legend govuk-visually-hidden">I confirm that I want the authentication code sent to the most recent home address given to Companies House</legend>
-                        <div class="govuk-checkboxes govuk-checkboxes--small">
+                        <div class="govuk-checkboxes">
                             <span class="govuk-error-message"
                                   th:if="${#fields.hasErrors('confirm')}"
                                   th:each="e : ${#fields.errors('confirm')}" th:text="${e}" >
