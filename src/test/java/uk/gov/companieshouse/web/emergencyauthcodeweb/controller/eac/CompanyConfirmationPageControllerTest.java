@@ -175,6 +175,23 @@ public class CompanyConfirmationPageControllerTest {
     }
 
     @Test
+    @DisplayName("Post to cannot use service page - ServiceException thrown")
+    void postRequestServiceException() throws Exception {
+        when(mockEACService.createAuthCodeRequest(any(EACRequest.class))).thenThrow(ServiceException.class);
+
+        CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
+        validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
+        validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+
+        when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
+
+        this.mockMvc.perform(post(EAC_COMPANY_CONFIRMATION_PATH))
+                .andExpect(status().isOk())
+                .andExpect(view().name(ERROR_VIEW));
+
+    }
+
+    @Test
     @DisplayName("Get company information view - Throws exception")
     void getRequestThrowsException() throws Exception {
         doThrow(ServiceException.class).when(mockCompanyService).getCompanyDetail(COMPANY_NUMBER);
