@@ -92,11 +92,11 @@ public class ListOfOfficersController extends BaseController {
         String companyNumber;
         try {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
-            companyNumber = eacRequest.getCompanyNumber();
             if (SUBMITTED_STATUS.equals(eacRequest.getStatus())) {
                 LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
                 return CANNOT_USE_THIS_SERVICE;
             }
+            companyNumber = eacRequest.getCompanyNumber();
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
             return ERROR_VIEW;
