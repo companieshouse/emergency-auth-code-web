@@ -38,10 +38,10 @@ public class ListOfOfficersControllerTest {
     private static final String TEMPLATE_INDIVIDUAL_OFFICER_MODEL = "eacOfficer";
     private static final String TEMPLATE_PAGE_NUMBERS_MODEL = "pageNumbers";
     private static final String TEMPLATE_CURRENT_PAGE_MODEL = "currentPage";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
     private MockMvc mockMvc;
-
-    private EACRequest eacRequest = new EACRequest();
+    private EACRequest eacRequest;
     private EACOfficerList eacOfficerList = new EACOfficerList();
 
     @Mock
@@ -56,6 +56,8 @@ public class ListOfOfficersControllerTest {
     @BeforeEach
     void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        this.eacRequest = new EACRequest();
+        this.eacRequest.setStatus("pending");
     }
 
     @Test
@@ -180,6 +182,19 @@ public class ListOfOfficersControllerTest {
                 .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name(ERROR_VIEW));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - unsuccessful - emergencyAuthCodeService returns eac request with a SUBMITTED status")
+    void postRequestUnsuccessful_submitted_status_GetEACRequest() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        eacRequest.setStatus("submitted");
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+
+        this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
+                .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(CANNOT_USE_THIS_SERVICE));
     }
 
     @Test
