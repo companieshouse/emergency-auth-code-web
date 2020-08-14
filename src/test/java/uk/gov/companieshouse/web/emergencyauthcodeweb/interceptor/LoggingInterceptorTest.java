@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.interceptor;
 
 import org.apache.http.HttpStatus;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,7 +52,7 @@ public class LoggingInterceptorTest {
 
     @Test
     @DisplayName("Tests the interceptor logs the start of the request")
-    public void preHandle() {
+    public void preHandle() throws JSONException {
         loggingInterceptor.preHandle(httpServletRequest, httpServletResponse, new Object());
         verify(session, times(1)).setAttribute(eq(LogContextProperties.START_TIME_KEY.value()), anyLong());
         String data = this.getOutputJson().toString();
@@ -61,7 +62,7 @@ public class LoggingInterceptorTest {
 
     @Test
     @DisplayName("Tests the interceptor logs the end of the request")
-    public void postHandle() {
+    public void postHandle() throws JSONException {
         when(session.getAttribute(LogContextProperties.START_TIME_KEY.value()))
                 .thenReturn(System.currentTimeMillis());
         when(httpServletResponse.getStatus()).thenReturn(HttpStatus.SC_OK);
@@ -75,7 +76,7 @@ public class LoggingInterceptorTest {
         assertThat(data, containsString( "status\":200"));
     }
 
-    private JSONObject getOutputJson() {
+    private JSONObject getOutputJson() throws JSONException {
         return new JSONObject(out.toString());
     }
 }
