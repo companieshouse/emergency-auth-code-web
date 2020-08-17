@@ -148,7 +148,9 @@ public class OfficerConfirmationPageControllerTest {
     @Test
     @DisplayName("Post to confirmation page - unsuccessful - emergencyAuthCodeService returns eac request with a SUBMITTED status")
     void postRequestUnsuccessful_Submitted_Status_ServiceException() throws Exception {
-        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        eacRequest.setStatus("submitted");
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
 
         this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
                 .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
