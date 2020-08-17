@@ -49,7 +49,7 @@ public class OfficerConfirmationPageControllerTest {
     private static final String VALID_CONFIRMATION = "true";
 
     private MockMvc mockMvc;
-    private EACRequest eacRequest = new EACRequest();
+    private EACRequest eacRequest;
     private EACOfficer eacOfficer = new EACOfficer();
     private EACOfficerDOB eacOfficerDOB = new EACOfficerDOB();
 
@@ -65,6 +65,8 @@ public class OfficerConfirmationPageControllerTest {
     @BeforeEach
     void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        this.eacRequest = new EACRequest();
+        this.eacRequest.setStatus("pending");
     }
 
     @Test
