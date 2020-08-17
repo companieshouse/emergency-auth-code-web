@@ -33,6 +33,8 @@ public class ListOfOfficersController extends BaseController {
 
     private static final String LIST_OF_OFFICERS = "eac/listOfOfficers";
     private static final String EAC_OFFICER_ATTR = "eacOfficer";
+    private static final String SUBMITTED_STATUS = "submitted";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
     @Autowired
     private EmergencyAuthCodeService emergencyAuthCodeService;
@@ -89,7 +91,12 @@ public class ListOfOfficersController extends BaseController {
         // Retrieve company number from API for later request
         String companyNumber;
         try {
-            companyNumber = emergencyAuthCodeService.getEACRequest(requestId).getCompanyNumber();
+            EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+            if (eacRequest.getStatus().equals(SUBMITTED_STATUS)) {
+                LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
+                return CANNOT_USE_THIS_SERVICE;
+            }
+            companyNumber = eacRequest.getCompanyNumber();
         } catch (ServiceException ex) {
             LOGGER.errorRequest(request, ex.getMessage(), ex);
             return ERROR_VIEW;
