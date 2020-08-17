@@ -31,6 +31,7 @@ import java.util.Locale;
 public class OfficerConfirmationPageController extends BaseController {
     private static final String OFFICER_INFORMATION = "eac/officerConfirmation";
     private static final String OFFICER_CONFIRMATION_MODEL_ATTR = "officerConfirmation";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
     private static final String SUBMITTED_STATUS = "submitted";
 
@@ -88,6 +89,11 @@ public class OfficerConfirmationPageController extends BaseController {
 
         try {
             EACRequest eacRequest = emergencyAuthCodeService.getEACRequest(requestId);
+
+            if (eacRequest.getStatus().equals(SUBMITTED_STATUS)) {
+                LOGGER.errorRequest(request, "Emergency Auth Code request has already been sent for this session");
+                return CANNOT_USE_THIS_SERVICE;
+            }
 
             String companyNumber = eacRequest.getCompanyNumber();
             String officerId = eacRequest.getOfficerId();

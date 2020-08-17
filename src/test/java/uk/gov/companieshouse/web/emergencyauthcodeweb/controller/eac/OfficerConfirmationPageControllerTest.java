@@ -42,6 +42,7 @@ public class OfficerConfirmationPageControllerTest {
     private static final String EAC_REQUEST_MODEL_ATTR = "eacRequest";
     private static final String EAC_OFFICER_DOB_MONTH_MODEL_ATTR = "eacOfficerDOBMonth";
     private static final String EAC_OFFICER_APPOINTMENT_MODEL_ATTR = "eacOfficerAppointment";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
 
     private static final String OFFICER_CONFIRMATION_PARAM = "confirm";
@@ -140,6 +141,17 @@ public class OfficerConfirmationPageControllerTest {
                 .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ERROR));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - unsuccessful - emergencyAuthCodeService returns eac request with a SUBMITTED status")
+    void postRequestUnsuccessful_Submitted_Status_ServiceException() throws Exception {
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenThrow(ServiceException.class);
+
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
+                .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
+                .andExpect(status().isOk())
+                .andExpect(view().name(CANNOT_USE_THIS_SERVICE));
     }
 
     @Test
