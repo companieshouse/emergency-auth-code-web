@@ -77,7 +77,7 @@ public class OfficerConfirmationPageControllerTest {
 
         this.mockMvc.perform(get(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ERROR));
+                .andExpect(view().name(CANNOT_USE_THIS_SERVICE));
     }
 
     @Test
