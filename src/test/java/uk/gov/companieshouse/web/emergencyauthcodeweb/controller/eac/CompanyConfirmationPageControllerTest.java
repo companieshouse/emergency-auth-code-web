@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,8 @@ public class CompanyConfirmationPageControllerTest {
     private static final String VALID_COMPANY_TYPE = "ltd";
 
     private static final String INVALID_COMPANY_STATUS = "invalid status";
+
+    private static final String VALID_DATE_OF_CREATION = "28 June 1950";
 
     private static final String VALID_COMPANY_STATUS = "Active";
 
@@ -122,6 +125,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 
@@ -165,6 +169,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 
@@ -182,6 +187,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 

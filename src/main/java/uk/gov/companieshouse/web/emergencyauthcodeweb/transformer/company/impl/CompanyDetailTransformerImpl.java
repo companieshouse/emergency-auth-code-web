@@ -1,31 +1,32 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.api.model.company.CompanyProfileApi;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.CompanyDetailTransformer;
-
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
 
     @Override
     public CompanyDetail getCompanyDetail(CompanyProfileApi companyProfile) {
-
         CompanyDetail companyDetail = new CompanyDetail();
-
         companyDetail.setCompanyName(companyProfile.getCompanyName());
-
         companyDetail.setCompanyNumber(companyProfile.getCompanyNumber());
 
         String companyStatus = companyProfile.getCompanyStatus();
         companyDetail.setCompanyStatus(formatCompanyStatus(companyStatus));
 
-        companyDetail.setDateOfCreation(companyProfile.getDateOfCreation()
-                .format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+        // Incorporation date isn't always present, so set default and handle accordingly.
+        if(companyProfile.getDateOfCreation() != null) {
+            LocalDate dateOfCreation = companyProfile.getDateOfCreation();
+            companyDetail.setDateOfCreation(dateOfCreation.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+        }
 
         companyDetail.setType(companyProfile.getType());
 
@@ -48,8 +49,8 @@ public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
         if(statuses.containsKey(companyStatus)){
             return statuses.get(companyStatus);
         }
-        return companyStatus;
 
+        return companyStatus;
     }
 
 }
