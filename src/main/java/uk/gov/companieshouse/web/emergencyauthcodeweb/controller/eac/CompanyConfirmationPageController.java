@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,10 +82,6 @@ public class CompanyConfirmationPageController extends BaseController {
 
         try {
             CompanyDetail companyDetail = companyService.getCompanyDetail(companyNumber);
-
-            if(StringUtils.isEmpty(companyDetail.getDateOfCreation())) {
-                return getCannotUseThisServiceView(companyNumber);
-            }
 
             if(!ACCEPTED_STATUS.equals(companyDetail.getCompanyStatus()) || !ACCEPTED_TYPES.contains(companyDetail.getType())){
                 return getCannotUseThisServiceView(companyNumber);
