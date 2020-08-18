@@ -42,13 +42,14 @@ public class OfficerConfirmationPageControllerTest {
     private static final String EAC_REQUEST_MODEL_ATTR = "eacRequest";
     private static final String EAC_OFFICER_DOB_MONTH_MODEL_ATTR = "eacOfficerDOBMonth";
     private static final String EAC_OFFICER_APPOINTMENT_MODEL_ATTR = "eacOfficerAppointment";
+    private static final String CANNOT_USE_THIS_SERVICE = "eac/cannotUseThisService";
 
 
     private static final String OFFICER_CONFIRMATION_PARAM = "confirm";
     private static final String VALID_CONFIRMATION = "true";
 
     private MockMvc mockMvc;
-    private EACRequest eacRequest = new EACRequest();
+    private EACRequest eacRequest;
     private EACOfficer eacOfficer = new EACOfficer();
     private EACOfficerDOB eacOfficerDOB = new EACOfficerDOB();
 
@@ -64,6 +65,8 @@ public class OfficerConfirmationPageControllerTest {
     @BeforeEach
     void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        this.eacRequest = new EACRequest();
+        this.eacRequest.setStatus("pending");
     }
 
     @Test
@@ -76,7 +79,7 @@ public class OfficerConfirmationPageControllerTest {
 
         this.mockMvc.perform(get(EAC_OFFICER_CONFIRMATION_PATH))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ERROR));
+                .andExpect(view().name(CANNOT_USE_THIS_SERVICE));
     }
 
     @Test
@@ -140,6 +143,19 @@ public class OfficerConfirmationPageControllerTest {
                 .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ERROR));
+    }
+
+    @Test
+    @DisplayName("Post to confirmation page - unsuccessful - emergencyAuthCodeService returns eac request with a SUBMITTED status")
+    void postRequestUnsuccessful_Submitted_Status_ServiceException() throws Exception {
+        eacRequest.setCompanyNumber(COMPANY_NUMBER);
+        eacRequest.setStatus("submitted");
+        when(emergencyAuthCodeService.getEACRequest(REQUEST_ID)).thenReturn(eacRequest);
+
+        this.mockMvc.perform(post(EAC_OFFICER_CONFIRMATION_PATH)
+                .param(OFFICER_CONFIRMATION_PARAM, VALID_CONFIRMATION))
+                .andExpect(status().isOk())
+                .andExpect(view().name(CANNOT_USE_THIS_SERVICE));
     }
 
     @Test
