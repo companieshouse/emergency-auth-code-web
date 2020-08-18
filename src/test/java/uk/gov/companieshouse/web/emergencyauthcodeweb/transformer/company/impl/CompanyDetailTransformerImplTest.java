@@ -67,7 +67,7 @@ public class CompanyDetailTransformerImplTest {
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
         assertEquals(INVALID_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
-        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
+        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation().get());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
     }
 
@@ -80,7 +80,7 @@ public class CompanyDetailTransformerImplTest {
 
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
-        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
+        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation().get());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
         assertEquals(FORMATTED_ACTIVE_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
     }

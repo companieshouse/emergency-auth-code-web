@@ -1,5 +1,10 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +20,6 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetai
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.company.CompanyService;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @NextController(ListOfOfficersController.class)
@@ -42,11 +41,12 @@ public class CompanyConfirmationPageController extends BaseController {
     private static final String MODEL_ATTR_SHOW_CONTINUE = "showContinue";
     private static final String SELF_KEY = "self";
 
+    private static final String ACCEPTED_STATUS = "Active";
+
     private static final List<String> ACCEPTED_TYPES = new ArrayList<>(
             Arrays.asList("ltd", "private-limited-guarant-nsc-limited-exemption", "plc",
                     "private-limited-guarant-nsc", "private-limited-shares-section-30-exemption",
                     "llp"));
-    private static final String ACCEPTED_STATUS = "Active";
 
     @Override
     protected String getTemplateName() {
@@ -55,9 +55,15 @@ public class CompanyConfirmationPageController extends BaseController {
 
     @GetMapping
     public String getCompanyInformation(@PathVariable("companyNumber") String companyNumber, Model model, HttpServletRequest request) {
-
         try {
-            model.addAttribute("companyDetail", getCompanyDetails(companyNumber));
+            CompanyDetail companyDetail = companyService.getCompanyDetail(companyNumber);
+
+            if(!companyDetail.getDateOfCreation().isPresent()) {
+                return getCannotUseThisServiceView(companyNumber);
+            }
+
+            model.addAttribute("companyDetail", companyDetail);
+
         } catch (ServiceException e) {
             LOGGER.errorRequest(request, e.getMessage(), e);
             return ERROR_VIEW;
@@ -79,28 +85,30 @@ public class CompanyConfirmationPageController extends BaseController {
         eacRequest.setCompanyNumber(companyNumber);
 
         try {
-            CompanyDetail companyDetail = getCompanyDetails(companyNumber);
-            if( !ACCEPTED_STATUS.equals(companyDetail.getCompanyStatus()) || !ACCEPTED_TYPES.contains(companyDetail.getType())){
-                return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
+            CompanyDetail companyDetail = companyService.getCompanyDetail(companyNumber);
+
+            if(!ACCEPTED_STATUS.equals(companyDetail.getCompanyStatus()) || !ACCEPTED_TYPES.contains(companyDetail.getType())){
+                return getCannotUseThisServiceView(companyNumber);
             }
 
             returnedRequest = emergencyAuthCodeService.createAuthCodeRequest(eacRequest);
+
             if (returnedRequest == null) {
-                return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
+                return getCannotUseThisServiceView(companyNumber);
             }
+
             requestId = extractIdFromSelfLink(returnedRequest.getLinks());
 
             return navigatorService.getNextControllerRedirect(this.getClass(), requestId);
 
         } catch (ServiceException error) {
-
             LOGGER.errorRequest(request, error.getMessage(), error);
             return ERROR_VIEW;
         }
     }
 
-    private CompanyDetail getCompanyDetails(String companyNumber) throws ServiceException {
-        return companyService.getCompanyDetail(companyNumber);
+    private String getCannotUseThisServiceView(final String companyNumber) {
+        return UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/auth-code-requests/company/" + companyNumber + CANNOT_USE_THIS_SERVICE;
     }
 
     private String extractIdFromSelfLink(Map<String, String> links) {

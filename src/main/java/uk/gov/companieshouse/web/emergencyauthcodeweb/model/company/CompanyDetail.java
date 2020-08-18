@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.company;
 
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
 
 public class CompanyDetail {
@@ -11,7 +12,7 @@ public class CompanyDetail {
 
     private String companyStatus;
 
-    private String dateOfCreation;
+    private Optional<String> dateOfCreation;
 
     private String type;
 
@@ -35,9 +36,9 @@ public class CompanyDetail {
 
     public void setCompanyStatus(String companyStatus) { this.companyStatus = companyStatus; }
 
-    public String getDateOfCreation() { return dateOfCreation; }
+    public Optional<String> getDateOfCreation() { return dateOfCreation; }
 
-    public void setDateOfCreation(String dateOfCreation) {
+    public void setDateOfCreation(Optional<String> dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 
