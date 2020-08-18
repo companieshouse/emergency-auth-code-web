@@ -1,5 +1,9 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,11 +15,6 @@ import uk.gov.companieshouse.api.model.ApiResponse;
 import uk.gov.companieshouse.api.model.company.CompanyProfileApi;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.company.CompanyDetail;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.company.CompanyDetailTransformer;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -67,7 +66,7 @@ public class CompanyDetailTransformerImplTest {
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
         assertEquals(INVALID_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
-        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation().get());
+        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
     }
 
@@ -80,7 +79,7 @@ public class CompanyDetailTransformerImplTest {
 
         assertEquals(COMPANY_NAME, companyDetailReturned.getCompanyName());
         assertEquals(COMPANY_NUMBER, companyDetailReturned.getCompanyNumber());
-        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation().get());
+        assertEquals(DATE_OF_CREATION.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")), companyDetailReturned.getDateOfCreation());
         assertEquals(COMPANY_TYPE, companyDetailReturned.getType());
         assertEquals(FORMATTED_ACTIVE_COMPANY_STATUS, companyDetailReturned.getCompanyStatus());
     }

@@ -23,11 +23,9 @@ public class CompanyDetailTransformerImpl implements CompanyDetailTransformer {
         companyDetail.setCompanyStatus(formatCompanyStatus(companyStatus));
 
         // Incorporation date isn't always present, so set default and handle accordingly.
-        companyDetail.setDateOfCreation(Optional.empty());
-
         if(companyProfile.getDateOfCreation() != null) {
             LocalDate dateOfCreation = companyProfile.getDateOfCreation();
-            companyDetail.setDateOfCreation(Optional.of(dateOfCreation.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))));
+            companyDetail.setDateOfCreation(dateOfCreation.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
         }
 
         companyDetail.setType(companyProfile.getType());

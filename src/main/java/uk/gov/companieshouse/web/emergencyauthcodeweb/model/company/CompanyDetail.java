@@ -12,7 +12,7 @@ public class CompanyDetail {
 
     private String companyStatus;
 
-    private Optional<String> dateOfCreation;
+    private String dateOfCreation;
 
     private String type;
 
@@ -36,9 +36,9 @@ public class CompanyDetail {
 
     public void setCompanyStatus(String companyStatus) { this.companyStatus = companyStatus; }
 
-    public Optional<String> getDateOfCreation() { return dateOfCreation; }
+    public String getDateOfCreation() { return dateOfCreation; }
 
-    public void setDateOfCreation(Optional<String> dateOfCreation) {
+    public void setDateOfCreation(String dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
 

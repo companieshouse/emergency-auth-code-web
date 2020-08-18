@@ -94,7 +94,7 @@ public class CompanyConfirmationPageControllerTest {
     @DisplayName("Get company information view - successful")
     void getRequestSuccessful() throws Exception {
 
-        when(companyDetail.getDateOfCreation()).thenReturn(Optional.of("20-05-1970"));
+        when(companyDetail.getDateOfCreation()).thenReturn("20-05-1970");
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(companyDetail);
 
