@@ -27,11 +27,4 @@ else
     source "${APP_DIR}/app_env"
 fi
 
-#exec java ${JAVA_MEM_ARGS} -Djava.util.logging.config.file="${APP_DIR}/logging.properties" -jar -Dserver.port="${PORT}" "${APP_DIR}/emergency-auth-code-web.jar"
-DEBUG=true
-
-if [[ ${DEBUG+x} ]] ; then
-    exec java ${JAVA_MEM_ARGS} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=4${PORT} -Djava.util.logging.config.file="${APP_DIR}/logging.properties" -jar -Dserver.port="${PORT}" "${APP_DIR}/emergency-auth-code-web.jar"
-else
-    exec java ${JAVA_MEM_ARGS} -Djava.util.logging.config.file="${APP_DIR}/logging.properties" -jar -Dserver.port="${PORT}" "${APP_DIR}/emergency-auth-code-web.jar"
-fi
+exec java ${JAVA_MEM_ARGS} -Djava.util.logging.config.file="${APP_DIR}/logging.properties" -jar -Dserver.port="${PORT}" "${APP_DIR}/emergency-auth-code-web.jar"
