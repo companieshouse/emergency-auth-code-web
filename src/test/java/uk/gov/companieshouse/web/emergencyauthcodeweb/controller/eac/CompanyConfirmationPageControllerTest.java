@@ -59,6 +59,8 @@ public class CompanyConfirmationPageControllerTest {
 
     private static final String INVALID_COMPANY_STATUS = "invalid status";
 
+    private static final String VALID_DATE_OF_CREATION = "28 June 1950";
+
     private static final String VALID_COMPANY_STATUS = "Active";
 
     private static final String EAC_CANNOT_USE_SERVICE_PATH = "redirect:/auth-code-requests/company/" + COMPANY_NUMBER + "/cannot-use-this-service";
@@ -94,8 +96,6 @@ public class CompanyConfirmationPageControllerTest {
     @DisplayName("Get company information view - successful")
     void getRequestSuccessful() throws Exception {
 
-        when(companyDetail.getDateOfCreation()).thenReturn("20-05-1970");
-
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(companyDetail);
 
         this.mockMvc.perform(get(EAC_COMPANY_CONFIRMATION_PATH))
@@ -125,6 +125,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 
@@ -168,6 +169,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 
@@ -185,6 +187,7 @@ public class CompanyConfirmationPageControllerTest {
         CompanyDetail validCompanyTypeAndStatus= new CompanyDetail();
         validCompanyTypeAndStatus.setType(VALID_COMPANY_TYPE);
         validCompanyTypeAndStatus.setCompanyStatus(VALID_COMPANY_STATUS);
+        validCompanyTypeAndStatus.setDateOfCreation(VALID_DATE_OF_CREATION);
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(validCompanyTypeAndStatus);
 
