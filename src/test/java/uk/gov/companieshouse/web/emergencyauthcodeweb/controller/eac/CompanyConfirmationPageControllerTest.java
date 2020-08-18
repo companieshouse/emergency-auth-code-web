@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.controller.eac;
 
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -92,6 +93,8 @@ public class CompanyConfirmationPageControllerTest {
     @Test
     @DisplayName("Get company information view - successful")
     void getRequestSuccessful() throws Exception {
+
+        when(companyDetail.getDateOfCreation()).thenReturn(Optional.of("20-05-1970"));
 
         when(mockCompanyService.getCompanyDetail(COMPANY_NUMBER)).thenReturn(companyDetail);
 
