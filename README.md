@@ -37,3 +37,12 @@ Confirm this is the correct company                         | `/auth-code-reques
 Select an officer                                           | `/auth-code-requests/requests/{requestId}/officers`
 Confirm this is the correct officer                         | `/auth-code-requests/requests/{requestId}/confirm-officer`
 Confirmation page                                           | `/auth-code-requests/requests/{requestId}/confirmation`
+
+### Building a Docker container image
+
+This project uses jib-maven-plugin to build Docker container images. To build a container image, run the following
+command on the command line:
+
+```bash
+mvn compile jib:dockerBuild -Dimage=169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/emergency-auth-code-web:latest
+```
