@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.company;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class CompanyDetail {
 

@@ -22,3 +22,7 @@ bin/
 mvnw
 mvnw.cmd
 !.mvn/wrapper/maven-wrapper.jar
+
+# Vim files
+*.vim
+.*.sw?
