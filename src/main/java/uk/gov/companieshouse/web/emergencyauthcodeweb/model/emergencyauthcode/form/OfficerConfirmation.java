@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.form;
 
-import javax.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.AssertTrue;
 
 public class OfficerConfirmation {
     @AssertTrue(message = "{officer.confirmationNotMade}")

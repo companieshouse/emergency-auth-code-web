@@ -18,8 +18,8 @@ import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.of
 import uk.gov.companieshouse.web.emergencyauthcodeweb.model.emergencyauthcode.request.EACRequest;
 import uk.gov.companieshouse.web.emergencyauthcodeweb.service.emergencyauthcode.EmergencyAuthCodeService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;

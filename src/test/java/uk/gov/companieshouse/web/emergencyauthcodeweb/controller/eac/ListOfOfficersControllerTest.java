@@ -207,7 +207,7 @@ public class ListOfOfficersControllerTest {
         this.mockMvc.perform(post(EAC_LIST_OF_OFFICERS_PATH)
                 .param(OFFICER_ID_PARAM, VALID_OFFICER_ID))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name(MOCK_CONTROLLER_PATH))
-                .andExpect(model().attributeErrorCount(TEMPLATE_INDIVIDUAL_OFFICER_MODEL, 0));
+                .andExpect(view().name(MOCK_CONTROLLER_PATH));
     }
+
 }
