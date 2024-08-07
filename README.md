@@ -42,6 +42,7 @@ Key                | Description
 | GET    | `/auth-code-requests/requests/{requestId}/confirmation`               | Confirmation page                                           |
 | GET    | `/auth-code-requests/accessibility-statement`                         | Who is eligible to use this service                         |
 | GET    | `/auth-code-requests/company/{companyNumber}/cannot-use-this-service` | Cannot use this service                                     |
+| GET    | `/auth-code-requests/healthcheck`                                     | Healthcheck                                                 |
 
 ### Building a Docker container image
 

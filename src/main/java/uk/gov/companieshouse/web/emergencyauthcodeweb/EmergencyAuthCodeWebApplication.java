@@ -25,6 +25,7 @@ public class EmergencyAuthCodeWebApplication implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loggingInterceptor);
+        registry.addInterceptor(loggingInterceptor)
+                .excludePathPatterns("/healthcheck");
     }
 }
