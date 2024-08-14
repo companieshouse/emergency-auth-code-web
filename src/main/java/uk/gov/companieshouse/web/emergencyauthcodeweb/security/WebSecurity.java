@@ -3,7 +3,6 @@ package uk.gov.companieshouse.web.emergencyauthcodeweb.security;
 import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,20 +15,20 @@ import uk.gov.companieshouse.session.handler.SessionHandler;
 public class WebSecurity {
 
     @Bean
-    @Order(1)
     public SecurityFilterChain authCodeSecurityFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/auth-code-requests/start", "/auth-code-requests/accessibility-statement")
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             .addFilterBefore(new SessionHandler(), BasicAuthenticationFilter.class)
             .addFilterBefore(new HijackFilter(), BasicAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    @Order(2)
     public SecurityFilterChain eacWebSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .securityMatcher("/auth-code-requests/**")
+            .securityMatcher("/auth-code-requests/company/**", "/auth-code-requests/requests/**")
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             .addFilterBefore(new SessionHandler(), BasicAuthenticationFilter.class)
             .addFilterBefore(new HijackFilter(), BasicAuthenticationFilter.class)
             .addFilterBefore(new UserAuthFilter(), BasicAuthenticationFilter.class);

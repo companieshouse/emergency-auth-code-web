@@ -14,7 +14,7 @@ public abstract class BaseController {
     protected NavigatorService navigatorService;
 
     protected static final Logger LOGGER = LoggerFactory
-            .getLogger(EmergencyAuthCodeWebApplication.APPLICATION_NAME_SPACE);
+        .getLogger(EmergencyAuthCodeWebApplication.APPLICATION_NAME_SPACE);
 
     protected static final String ERROR_VIEW = "error";
 
@@ -27,5 +27,13 @@ public abstract class BaseController {
     protected void addBackPageAttributeToModel(Model model, String... pathVars) {
 
         model.addAttribute("backButton", navigatorService.getPreviousControllerPath(this.getClass(), pathVars));
+    }
+
+    @ModelAttribute
+    public void addCommonAttributes(Model model) {
+        model.addAttribute("headerText", "Request an authentication code to be sent to a home address");
+        model.addAttribute("headerURL", "/auth-code-requests/start");
+        model.addAttribute("phaseBanner", "ALPHA");
+        model.addAttribute("phaseBannerLink", "https://www.smartsurvey.co.uk/s/request-auth-code-feedback");
     }
 }
