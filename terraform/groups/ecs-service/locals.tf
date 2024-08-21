@@ -8,7 +8,7 @@ locals {
   eric_port                 = "10000"
   docker_repo               = "emergency-auth-code-web"
   kms_alias                 = "alias/${var.aws_profile}/environment-services-kms"
-  lb_listener_rule_priority = 31
+  lb_listener_rule_priority = 36
   lb_listener_paths = [
     "/auth-code-requests/accessibility-statement",
     "/auth-code-requests/company/*/cannot-use-this-service",
