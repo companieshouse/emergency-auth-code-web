@@ -58,7 +58,7 @@ locals {
     { "name" : "API_KEY", "valueFrom" : local.global_secrets_arn_map.eric_api_key },
     { "name" : "AES256_KEY", "valueFrom" : local.global_secrets_arn_map.eric_aes256_key }
   ]
-  eric_environment_filename = "eric.env"
+  eric_environment_filename = "eric-web.env"
 
   service_secrets_arn_map = {
     for sec in module.secrets.secrets :
