@@ -49,5 +49,5 @@ This project uses jib-maven-plugin to build Docker container images. To build a 
 command on the command line:
 
 ```bash
-mvn compile jib:dockerBuild -Dimage=169942020521.dkr.ecr.eu-west-1.amazonaws.com/local/emergency-auth-code-web:latest
+mvn compile jib:dockerBuild -Dimage=416670754337.dkr.ecr.eu-west-2.amazonaws.com/emergency-auth-code-web:latest
 ```
