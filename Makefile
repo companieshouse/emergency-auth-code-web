@@ -26,6 +26,10 @@ test: clean
 test-unit: clean
 	mvn test
 
+.PHONY: test-integration
+test-integration:
+	mvn integration-test -Dskip.unit.tests=true
+
 
 .PHONY: dev
 dev: clean
