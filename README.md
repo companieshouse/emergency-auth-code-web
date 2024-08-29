@@ -19,7 +19,6 @@ In order to run this Web app locally you will need to install:
 1. Run `make`
 1. Run `./start.sh`
 
-
 ### Configuration
 
 Key                | Description
