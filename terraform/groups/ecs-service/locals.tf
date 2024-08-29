@@ -16,7 +16,7 @@ locals {
     "/auth-code-requests/requests/*/confirm-officer",
     "/auth-code-requests/requests/*/confirmation",
     "/auth-code-requests/requests/*/officers",
-    "/auth-code-requests/start",
+    "/auth-code-requests/start"
   ]
   healthcheck_path          = "/auth-code-requests/healthcheck"
   healthcheck_matcher       = "200"
