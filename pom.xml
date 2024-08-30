@@ -29,7 +29,7 @@
         <sdk-manager-java.version>3.0.9</sdk-manager-java.version>
         <api-sdk-java.version>6.0.17</api-sdk-java.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <common-web-java.version>3.0.17</common-web-java.version>
+        <common-web-java.version>3.0.19</common-web-java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 
         <!-- Maven -->
