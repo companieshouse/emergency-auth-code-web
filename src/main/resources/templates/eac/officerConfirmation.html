@@ -12,7 +12,7 @@
     <form th:action="@{''}" th:object="${officerConfirmation}" method="post" class="form" id="officer-confirmation">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <div th:replace="fragments/globalErrors :: globalErrors"></div>
+                <div th:replace="~{fragments/globalErrors :: globalErrors}"></div>
                 <h1 class="govuk-heading-l">Confirm this is the correct officer</h1>
                 <dl class="govuk-summary-list">
                     <div class="govuk-summary-list__row">
