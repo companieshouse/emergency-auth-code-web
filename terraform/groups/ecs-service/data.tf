@@ -39,7 +39,7 @@ data "aws_lb" "service_lb" {
 
 data "aws_lb_listener" "service_lb_listener" {
   load_balancer_arn = data.aws_lb.service_lb.arn
-  port = 443
+  port              = 443
 }
 
 # retrieve all secrets for this stack using the stack path
