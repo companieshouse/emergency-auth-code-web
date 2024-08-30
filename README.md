@@ -50,4 +50,3 @@ command on the command line:
 ```bash
 mvn compile jib:dockerBuild -Dimage=416670754337.dkr.ecr.eu-west-2.amazonaws.com/emergency-auth-code-web:latest
 ```
-
