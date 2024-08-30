@@ -50,30 +50,32 @@ module "ecs-service" {
   container_port    = local.container_port
 
   # Service configuration
-  service_name = local.service_name
-  name_prefix  = local.name_prefix
+  service_name              = local.service_name
+  name_prefix               = local.name_prefix
+  use_fargate               = var.use_fargate
+  fargate_subnets           = local.application_subnet_ids
+  service_autoscale_enabled = var.service_autoscale_enabled
 
-  # ECS Task container health check
-  use_task_container_healthcheck = true
-  healthcheck_path               = local.healthcheck_path
-  healthcheck_matcher            = local.healthcheck_matcher
+  # Service Healthcheck configuration
+  use_task_container_healthcheck    = true
+  healthcheck_path                  = local.healthcheck_path
+  healthcheck_matcher               = local.healthcheck_matcher
+  health_check_grace_period_seconds = 300
+  healthcheck_healthy_threshold     = "2"
 
   # Service performance and scaling configs
   desired_task_count                 = var.desired_task_count
-  max_task_count                     = var.max_task_count
   required_cpus                      = var.required_cpus
   required_memory                    = var.required_memory
-  service_autoscale_enabled          = var.service_autoscale_enabled
   service_autoscale_target_value_cpu = var.service_autoscale_target_value_cpu
   service_scaledown_schedule         = var.service_scaledown_schedule
   service_scaleup_schedule           = var.service_scaleup_schedule
   use_capacity_provider              = var.use_capacity_provider
-  use_fargate                        = var.use_fargate
-  fargate_subnets                    = local.application_subnet_ids
+  min_task_count                     = var.min_task_count
+  max_task_count                     = var.max_task_count
 
   # Cloudwatch
-  cloudwatch_alarms_enabled         = var.cloudwatch_alarms_enabled
-  multilb_cloudwatch_alarms_enabled = var.multilb_cloudwatch_alarms_enabled
+  cloudwatch_alarms_enabled = var.cloudwatch_alarms_enabled
 
   # Service environment variable and secret configs
   task_environment          = local.task_environment
@@ -81,12 +83,15 @@ module "ecs-service" {
   app_environment_filename  = local.app_environment_filename
   use_set_environment_files = local.use_set_environment_files
 
-  # eric options for eric running API module
+  depends_on = [module.secrets]
+
+   # eric options for eric running Web module
+   # eric secrets not used in WEB mode, so passing in an empty array
   use_eric_reverse_proxy    = true
   eric_version              = var.eric_version
   eric_cpus                 = var.eric_cpus
   eric_memory               = var.eric_memory
   eric_port                 = local.eric_port
   eric_environment_filename = local.eric_environment_filename
-  eric_secrets              = local.eric_secrets
+  eric_secrets              = []
 }
