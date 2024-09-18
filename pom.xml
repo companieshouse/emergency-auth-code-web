@@ -19,17 +19,17 @@
 
     <properties>
         <java.version>21</java.version>
-        <structured-logging.version>3.0.9</structured-logging.version>
-        <commons-lang3.version>3.15.0</commons-lang3.version>
+        <structured-logging.version>3.0.14</structured-logging.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
         <java-session-handler.version>4.1.0</java-session-handler.version>
         <web-security-java.version>3.1.0</web-security-java.version>
         <junit-jupiter-engine.version>5.10.3</junit-jupiter-engine.version>
         <mockito-junit-jupiter.version>5.12.0</mockito-junit-jupiter.version>
         <sdk-manager-java.version>3.0.9</sdk-manager-java.version>
-        <api-sdk-java.version>6.0.17</api-sdk-java.version>
+        <api-sdk-java.version>6.0.19</api-sdk-java.version>
         <hamcrest.version>2.2</hamcrest.version>
-        <common-web-java.version>3.0.19</common-web-java.version>
+        <common-web-java.version>3.0.24</common-web-java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 
         <!-- Maven -->
@@ -37,13 +37,14 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
-        <spring-boot-maven-plugin.version>3.3.2</spring-boot-maven-plugin.version>
-        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-boot-maven-plugin.version>3.3.3</spring-boot-maven-plugin.version>
+        <spring-boot.version>3.3.3</spring-boot.version>
         <spring-security-test.version>6.3.3</spring-security-test.version>
         <spring-security-config.version>6.3.3</spring-security-config.version>
-        <spring-web.version>6.1.12</spring-web.version>
-        <jackson-databind.version>2.17.0</jackson-databind.version>
+        <spring-web.version>6.1.13</spring-web.version>
+        <jackson-databind.version>2.17.2</jackson-databind.version>
     </properties>
 
     <dependencies>
@@ -205,8 +206,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
@@ -227,6 +228,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
