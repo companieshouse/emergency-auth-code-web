@@ -23,7 +23,7 @@
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
         <java-session-handler.version>4.1.0</java-session-handler.version>
-        <web-security-java.version>3.1.0</web-security-java.version>
+        <web-security-java.version>3.1.5</web-security-java.version>
         <junit-jupiter-engine.version>5.10.3</junit-jupiter-engine.version>
         <mockito-junit-jupiter.version>5.12.0</mockito-junit-jupiter.version>
         <sdk-manager-java.version>3.0.9</sdk-manager-java.version>
@@ -40,10 +40,10 @@
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
         <spring-boot-maven-plugin.version>3.3.3</spring-boot-maven-plugin.version>
-        <spring-boot.version>3.3.3</spring-boot.version>
-        <spring-security-test.version>6.3.3</spring-security-test.version>
-        <spring-security-config.version>6.3.3</spring-security-config.version>
-        <spring-web.version>6.1.13</spring-web.version>
+        <spring-boot.version>3.4.4</spring-boot.version>
+        <spring-security-test.version>6.4.5</spring-security-test.version>
+        <spring-security-config.version>6.4.5</spring-security-config.version>
+        <spring-web.version>6.2.6</spring-web.version>
         <jackson-databind.version>2.17.2</jackson-databind.version>
     </properties>
 
