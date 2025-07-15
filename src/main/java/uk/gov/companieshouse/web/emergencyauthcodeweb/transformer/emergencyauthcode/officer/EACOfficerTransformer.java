@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.transformer.emergencyauthcode.officer;
 
-import org.apache.commons.lang.WordUtils;
+ import org.apache.commons.text.WordUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
