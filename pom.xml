@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <structured-logging.version>3.0.14</structured-logging.version>
+        <structured-logging.version>3.0.35</structured-logging.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <thymeleaf-layout-dialect.version>3.3.0</thymeleaf-layout-dialect.version>
         <java-session-handler.version>4.1.7</java-session-handler.version>
@@ -159,7 +159,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--        CVE-2025-49124(8.4), CVE-2025-49125(7.5), CVE-2025-48988(7.5), CVE-2024-23672(6.3), CVE-2024-24549(7.5), CVE-2024-38286(7.5), CVE-2025-46701(7.3), CVE-2025-24813(9.8), CVE-2025-31651(9.8), CVE-2024-52316(9.8), CVE-2024-34750(7.5), CVE-2025-31650(7.5), CVE-2024-54677(5.3), CVE-2024-50379(9.8)-->
+<!--        CVE-2025-49124(8.4), CVE-2024-50379(9.8)-->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
