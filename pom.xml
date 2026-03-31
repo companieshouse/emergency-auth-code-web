@@ -18,8 +18,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <spring-boot-dependencies.version>3.5.9</spring-boot-dependencies.version>
-        <spring-boot-maven-plugin.version>3.5.9</spring-boot-maven-plugin.version>
+        <spring-boot-dependencies.version>3.5.13</spring-boot-dependencies.version>
+        <spring-boot-maven-plugin.version>3.5.13</spring-boot-maven-plugin.version>
         <thymeleaf-layout-dialect.version>3.4.0</thymeleaf-layout-dialect.version>
         <log4j.version>2.25.3</log4j.version>
         <structured-logging.version>3.0.46</structured-logging.version>
@@ -39,17 +39,6 @@
         <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
-
-        <!-- Sonar -->
-        <sonar.projectName>emergency-auth-code-web</sonar.projectName>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.host.url>${CODE_ANALYSIS_HOST_URL}</sonar.host.url>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
-        <sonar.login/>
-        <sonar.password/>
-        <sonar.projectKey>uk.gov.companieshouse:emergency-auth-code-web</sonar.projectKey>
-        <sonar.java.binaries>${project.basedir}/target,${project.basedir}/target/*</sonar.java.binaries>
     </properties>
 
     <dependencyManagement>
@@ -250,11 +239,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
