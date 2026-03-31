@@ -27,7 +27,7 @@
                     <li class="govuk-footer__inline-list-item">
                         <a class="govuk-footer__link" id="contact-us-link"
                            data-event-id="contact-us-footer-link"
-                           th:href="@{{chsUrl}/help/contact-us(chsUrl=${@environment.getProperty('chs.url')})}"
+                           th:href="${@environment.getProperty('contact.us.url')}"
                            data-th-text="#{label.footer.contact}" target="_blank"></a>
                     </li>
                     <li class="govuk-footer__inline-list-item">
