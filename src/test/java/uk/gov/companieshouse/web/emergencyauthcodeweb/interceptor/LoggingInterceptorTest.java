@@ -1,6 +1,6 @@
 package uk.gov.companieshouse.web.emergencyauthcodeweb.interceptor;
 
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class LoggingInterceptorTest {
+class LoggingInterceptorTest {
 
     @Mock
     private HttpServletRequest httpServletRequest;
@@ -52,7 +52,7 @@ public class LoggingInterceptorTest {
 
     @Test
     @DisplayName("Tests the interceptor logs the start of the request")
-    public void preHandle() throws JSONException {
+    void preHandle() throws JSONException {
         loggingInterceptor.preHandle(httpServletRequest, httpServletResponse, new Object());
         verify(session, times(1)).setAttribute(eq(LogContextProperties.START_TIME_KEY.value()), anyLong());
         String data = this.getOutputJson().toString();
@@ -62,10 +62,10 @@ public class LoggingInterceptorTest {
 
     @Test
     @DisplayName("Tests the interceptor logs the end of the request")
-    public void postHandle() throws JSONException {
+    void postHandle() throws JSONException {
         when(session.getAttribute(LogContextProperties.START_TIME_KEY.value()))
                 .thenReturn(System.currentTimeMillis());
-        when(httpServletResponse.getStatus()).thenReturn(HttpStatus.SC_OK);
+        when(httpServletResponse.getStatus()).thenReturn(HttpStatus.OK.value());
         loggingInterceptor.postHandle(httpServletRequest, httpServletResponse, new Object(),
                 new ModelAndView());
         verify(session, times(1)).getAttribute(LogContextProperties.START_TIME_KEY.value());
