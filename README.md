@@ -21,17 +21,17 @@ In order to run this Web app locally you will need to install:
 
 ### Configuration
 
-Key                            | Description
--------------------------------|------------------------------------
-`EMERGENCY_AUTH_CODE_WEB_PORT` | The port of the emergency auth code web service
-`HUMAN_LOG`                    | For human readable logs
-`CHS_API_KEY`                  | API key for Companies House API calls
-`CDN_HOST`                     | CDN hostname for static assets
-`CHS_URL`                      | Base URL of the CHS web service
-`PIWIK_URL`                    | URL of the Piwik analytics service
-`PIWIK_SITE_ID`                | Site ID for Piwik analytics
-`CONTACT_US_URL`               | URL for the contact us page
-`DEVELOPER_URL`                | URL for the developer hub
+| Key                            | Description                                     |
+|--------------------------------|-------------------------------------------------|
+| `EMERGENCY_AUTH_CODE_WEB_PORT` | The port of the emergency auth code web service |
+| `HUMAN_LOG`                    | For human readable logs                         |
+| `CHS_API_KEY`                  | API key for Companies House API calls           |
+| `CDN_HOST`                     | CDN hostname for static assets                  |
+| `CHS_URL`                      | Base URL of the CHS web service                 |
+| `PIWIK_URL`                    | URL of the Piwik analytics service              |
+| `PIWIK_SITE_ID`                | Site ID for Piwik analytics                     |
+| `CONTACT_US_URL`               | URL for the contact us page                     |
+| `DEVELOPER_URL`                | URL for the developer hub                       |
 
 ### Testing
 
@@ -61,12 +61,3 @@ make test-unit
 | GET    | `/auth-code-requests/requests/{requestId}/confirmation`               | Confirmation page                                           |
 | GET    | `/auth-code-requests/accessibility-statement`                         | Who is eligible to use this service                         |
 | GET    | `/auth-code-requests/company/{companyNumber}/cannot-use-this-service` | Cannot use this service                                     |
-
-### Building a Docker container image
-
-This project uses jib-maven-plugin to build Docker container images. To build a container image, run the following
-command on the command line:
-
-```bash
-mvn compile jib:dockerBuild -Dimage=416670754337.dkr.ecr.eu-west-2.amazonaws.com/emergency-auth-code-web:latest
-```
