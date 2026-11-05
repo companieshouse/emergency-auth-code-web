@@ -20,10 +20,10 @@
         <spring-boot.version>4.1.1</spring-boot.version>
 
         <!-- CH dependencies -->
-        <ch-boms.version>0.1.28</ch-boms.version>
+        <ch-boms.version>0.1.36</ch-boms.version>
 
         <common-web-java.version>5.0.6</common-web-java.version>
-        <api-sdk-java.version>7.2.8</api-sdk-java.version>
+        <api-sdk-java.version>7.2.9</api-sdk-java.version>
 
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
 
