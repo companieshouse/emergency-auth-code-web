@@ -17,19 +17,17 @@
     </parent>
 
     <properties>
-        <spring-boot.version>4.1.1</spring-boot.version>
+        <spring-boot.version>4.1.2</spring-boot.version>
 
         <!-- CH dependencies -->
-        <ch-boms.version>0.1.36</ch-boms.version>
+        <ch-boms.version>0.1.40</ch-boms.version>
 
-        <common-web-java.version>5.0.6</common-web-java.version>
-        <api-sdk-java.version>7.2.9</api-sdk-java.version>
+        <common-web-java.version>6.0.1</common-web-java.version>
+        <api-sdk-java.version>7.2.10</api-sdk-java.version>
 
+        <commons-text.version>1.15.0</commons-text.version>
+        <!-- Keep in step with the mapstruct version managed by ch-core-bom (processor is not BOM-managed) -->
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
-
-        <!-- OpenTelemetry -->
-        <opentelemetry.version>2.32.0</opentelemetry.version>
-        <opentelemetry.logback.appender.version>2.32.0-alpha</opentelemetry.logback.appender.version>
     </properties>
 
     <dependencyManagement>
@@ -47,14 +45,6 @@
                 <groupId>uk.gov.companieshouse</groupId>
                 <artifactId>ch-test-bom</artifactId>
                 <version>${ch-boms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>io.opentelemetry.instrumentation</groupId>
-                <artifactId>opentelemetry-instrumentation-bom</artifactId>
-                <version>${opentelemetry.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -105,8 +95,6 @@
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-logback-appender-1.0</artifactId>
-            <version>${opentelemetry.logback.appender.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -150,9 +138,8 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.10.0</version>
+            <version>${commons-text.version}</version>
         </dependency>
-
 
         <!-- Testing Dependencies-->
         <dependency>
